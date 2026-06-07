@@ -263,9 +263,7 @@
             <div>
               <h3 class="font-bold text-white text-base mb-3">💡 Insight Utama</h3>
               <p class="text-xs text-slate-400 leading-relaxed">
-                **Optimism L2** memangkas pengeluaran gas hingga **94.5%** dibandingkan dengan Polygon PoS. Hal ini
-                disebabkan efisiensi kompresi data L2-ke-L1 dan optimalisasi OP Stack Bedrock yang sangat matang dalam
-                melakukan kalkulasi state-update.
+                Jaringan Optimism L2 memangkas pengeluaran gas hingga 94.5% dibandingkan dengan Polygon PoS. Hal ini disebabkan efisiensi kompresi data L2-ke-L1 dan optimalisasi OP Stack Bedrock yang sangat matang dalam melakukan kalkulasi state-update.
               </p>
             </div>
             <div class="border-t border-slate-800 pt-3 mt-3">
@@ -342,69 +340,84 @@
         <div>
           <span class="text-xs font-bold text-amber-400 uppercase tracking-widest">KINERJA & UX</span>
           <h2 class="text-2xl md:text-3xl font-extrabold text-white mt-1">Kecepatan Konfirmasi & Finalitas Jaringan</h2>
-          <p class="text-sm text-slate-500 mt-1">Mengukur kecepatan respons sistem (UX) dan tingkat kekekalan data
-            on-chain.</p>
+          <p class="text-sm text-slate-500 mt-1">Mengukur kecepatan respons sistem (UX) dan tingkat kekekalan data on-chain.</p>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 space-y-3">
-            <div class="flex items-center gap-2 text-cyan-400 font-bold"><img src="./Arbitrum.png" alt="Arbitrum"
-                class="w-4.5 h-4.5"> Arbitrum</div>
-            <div class="space-y-1.5 pt-2 text-xs">
-              <div class="flex justify-between border-b border-slate-800/60 pb-1.5"><span class="text-slate-500">Block
-                  Time</span><span class="font-mono font-bold text-white">~250ms</span></div>
-              <div class="flex justify-between border-b border-slate-800/60 pb-1.5"><span class="text-slate-500">Soft
-                  Finality</span><span class="font-mono text-emerald-400">~250ms</span></div>
-              <div class="flex justify-between"><span class="text-slate-500">L1 Settlement</span><span
-                  class="font-mono text-slate-400">~13 Menit</span></div>
+          <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 space-y-4 flex flex-col justify-between">
+            <div class="space-y-3">
+              <div class="flex flex-col items-center text-center gap-2 text-cyan-400 font-bold border-b border-slate-800/60 pb-3">
+                <img src="./Arbitrum.png" alt="Arbitrum" class="w-8 h-8 object-contain">
+                <span>Arbitrum</span>
+              </div>
+              <div class="space-y-1.5 text-xs">
+                <div class="flex justify-between border-b border-slate-800/60 pb-1.5"><span class="text-slate-500">Block Time</span><span class="font-mono font-bold text-white">~250ms</span></div>
+                <div class="flex justify-between border-b border-slate-800/60 pb-1.5"><span class="text-slate-500">Soft Finality</span><span class="font-mono text-emerald-400">~250ms</span></div>
+                <div class="flex justify-between"><span class="text-slate-500">L1 Settlement</span><span class="font-mono text-slate-400">~13 Menit</span></div>
+              </div>
             </div>
-            <p class="text-[10px] text-slate-500 italic pt-2 leading-relaxed">Tercepat dalam memberikan konfirmasi UI
-              kepada user.</p>
+            <p class="text-[10px] text-slate-500 italic pt-2 leading-relaxed border-t border-slate-800/40">Tercepat dalam memberikan konfirmasi UI kepada user.</p>
           </div>
 
-          <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 space-y-3">
-            <div class="flex items-center gap-2 text-blue-400 font-bold"><img src="./Base.png" alt="Base"
-                class="w-4.5 h-4.5"> Base</div>
-            <div class="space-y-1.5 pt-2 text-xs">
-              <div class="flex justify-between border-b border-slate-800/60 pb-1.5"><span class="text-slate-500">Block
-                  Time</span><span class="font-mono font-bold text-white">~2 Detik</span></div>
-              <div class="flex justify-between border-b border-slate-800/60 pb-1.5"><span class="text-slate-500">Soft
-                  Finality</span><span class="font-mono text-emerald-400">~200ms*</span></div>
-              <div class="flex justify-between"><span class="text-slate-500">L1 Settlement</span><span
-                  class="font-mono text-slate-400">~13 Menit</span></div>
+          <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 space-y-4 flex flex-col justify-between">
+            <div class="space-y-3">
+              <div class="flex flex-col items-center text-center gap-2 text-blue-400 font-bold border-b border-slate-800/60 pb-3">
+                <img src="./Base.png" alt="Base" class="w-8 h-8 object-contain">
+                <span>Base</span>
+              </div>
+              <div class="space-y-1.5 text-xs">
+                <div class="flex justify-between border-b border-slate-800/60 pb-1.5"><span class="text-slate-500">Block Time</span><span class="font-mono font-bold text-white">~2 Detik</span></div>
+                <div class="flex justify-between border-b border-slate-800/60 pb-1.5"><span class="text-slate-500">Soft Finality</span><span class="font-mono text-emerald-400">~200ms*</span></div>
+                <div class="flex justify-between"><span class="text-slate-500">L1 Settlement</span><span class="font-mono text-slate-400">~13 Menit</span></div>
+              </div>
             </div>
-            <p class="text-[10px] text-slate-500 italic pt-2 leading-relaxed">*Menggunakan OP Stack Flashblocks untuk
-              pre-confirmations instan.</p>
+            <p class="text-[10px] text-slate-500 italic pt-2 leading-relaxed border-t border-slate-800/40">*Menggunakan OP Stack Flashblocks untuk pre-confirmations instan.</p>
           </div>
 
-          <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 space-y-3">
-            <div class="flex items-center gap-2 text-red-400 font-bold"><img src="./Optimism.png" alt="Optimism"
-                class="w-4.5 h-4.5"> Optimism</div>
-            <div class="space-y-1.5 pt-2 text-xs">
-              <div class="flex justify-between border-b border-slate-800/60 pb-1.5"><span class="text-slate-500">Block
-                  Time</span><span class="font-mono font-bold text-white">~2 Detik</span></div>
-              <div class="flex justify-between border-b border-slate-800/60 pb-1.5"><span class="text-slate-500">Soft
-                  Finality</span><span class="font-mono text-slate-400">~2 Detik</span></div>
-              <div class="flex justify-between"><span class="text-slate-500">L1 Settlement</span><span
-                  class="font-mono text-slate-400">~16 Menit</span></div>
+          <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 space-y-4 flex flex-col justify-between">
+            <div class="space-y-3">
+              <div class="flex flex-col items-center text-center gap-2 text-red-400 font-bold border-b border-slate-800/60 pb-3">
+                <img src="./Optimism.png" alt="Optimism" class="w-8 h-8 object-contain">
+                <span>Optimism</span>
+              </div>
+              <div class="space-y-1.5 text-xs">
+                <div class="flex justify-between border-b border-slate-800/60 pb-1.5"><span class="text-slate-500">Block Time</span><span class="font-mono font-bold text-white">~2 Detik</span></div>
+                <div class="flex justify-between border-b border-slate-800/60 pb-1.5"><span class="text-slate-500">Soft Finality</span><span class="font-mono text-slate-400">~2 Detik</span></div>
+                <div class="flex justify-between"><span class="text-slate-500">L1 Settlement</span><span class="font-mono text-slate-400">~16 Menit</span></div>
+              </div>
             </div>
-            <p class="text-[10px] text-slate-500 italic pt-2 leading-relaxed">Menggunakan OP stack standar dengan
-              performa stabil.</p>
+            <p class="text-[10px] text-slate-500 italic pt-2 leading-relaxed border-t border-slate-800/40">Menggunakan OP stack standar dengan performa stabil.</p>
           </div>
 
-          <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 space-y-3">
-            <div class="flex items-center gap-2 text-purple-400 font-bold"><img src="./Polygon.svg" alt="Polygon"
-                class="w-4.5 h-4.5"> Polygon PoS</div>
-            <div class="space-y-1.5 pt-2 text-xs">
-              <div class="flex justify-between border-b border-slate-800/60 pb-1.5"><span class="text-slate-500">Block
-                  Time</span><span class="font-mono font-bold text-white">~1.75 Detik</span></div>
-              <div class="flex justify-between border-b border-slate-800/60 pb-1.5"><span class="text-slate-500">Soft
-                  Finality</span><span class="font-mono text-slate-400">~2 Detik</span></div>
-              <div class="flex justify-between"><span class="text-slate-500">L1 Settlement</span><span
-                  class="font-mono text-emerald-400">~5 Menit</span></div>
+          <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 space-y-4 flex flex-col justify-between">
+            <div class="space-y-3">
+              <div class="flex flex-col items-center text-center gap-2 text-purple-400 font-bold border-b border-slate-800/60 pb-3">
+                <img src="./Polygon.svg" alt="Polygon" class="w-8 h-8 object-contain">
+                <span>Polygon PoS</span>
+              </div>
+              <div class="space-y-1.5 text-xs">
+                <div class="flex justify-between border-b border-slate-800/60 pb-1.5"><span class="text-slate-500">Block Time</span><span class="font-mono font-bold text-white">~1.75 Detik</span></div>
+                <div class="flex justify-between border-b border-slate-800/60 pb-1.5"><span class="text-slate-500">Soft Finality</span><span class="font-mono text-slate-400">~2 Detik</span></div>
+                <div class="flex justify-between"><span class="text-slate-500">L1 Settlement</span><span class="font-mono text-emerald-400">~5 Menit</span></div>
+              </div>
             </div>
-            <p class="text-[10px] text-slate-500 italic pt-2 leading-relaxed">Checkpointing L1 tercepat namun rentan
-              reorg jaringan lokal.</p>
+            <p class="text-[10px] text-slate-500 italic pt-2 leading-relaxed border-t border-slate-800/40">Checkpointing L1 tercepat namun rentan reorg jaringan lokal.</p>
+          </div>
+        </div>
+
+        <!-- Glosarium Terminologi Kecepatan -->
+        <div class="bg-slate-900/40 border border-slate-800 rounded-2xl p-5 grid grid-cols-1 md:grid-cols-3 gap-6 text-xs text-slate-400">
+          <div class="space-y-1">
+            <h4 class="font-bold text-slate-200 flex items-center gap-1.5">⏱️ Block Time</h4>
+            <p class="leading-relaxed">Interval waktu pembuatan blok baru di blockchain. Semakin kecil nilainya, semakin cepat transaksi masuk antrean eksekusi pertama.</p>
+          </div>
+          <div class="space-y-1 border-t md:border-t-0 md:border-l border-slate-800/80 pt-4 md:pt-0 md:pl-6">
+            <h4 class="font-bold text-emerald-400 flex items-center gap-1.5">⚡ Soft Finality</h4>
+            <p class="leading-relaxed">Waktu respons di mana transaksi dikonfirmasi oleh Sequencer L2. Memberikan umpan balik instan ke antarmuka aplikasi Fintech (UX cepat).</p>
+          </div>
+          <div class="space-y-1 border-t md:border-t-0 md:border-l border-slate-800/80 pt-4 md:pt-0 md:pl-6">
+            <h4 class="font-bold text-blue-400 flex items-center gap-1.5">🔐 L1 Settlement (Hard Finality)</h4>
+            <p class="leading-relaxed">Waktu yang dibutuhkan untuk mengunci dan merelasikan data transaksi dari L2 ke Ethereum Mainnet (L1) agar permanen dan tidak bisa diubah.</p>
           </div>
         </div>
       </div>
@@ -416,45 +429,35 @@
         <div>
           <span class="text-xs font-bold text-emerald-400 uppercase tracking-widest">BUDGETING & FINANCIALS</span>
           <h2 class="text-2xl md:text-3xl font-extrabold text-white mt-1">Biaya Bulanan & Risiko Volatilitas Koin</h2>
-          <p class="text-sm text-slate-500 mt-1">Analisis anggaran operasional berdasarkan konsumsi 5.000 - 7.000
-            transaksi/bulan.</p>
+          <p class="text-sm text-slate-500 mt-1">Analisis anggaran operasional berdasarkan konsumsi 5.000 - 7.000 transaksi/bulan.</p>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-          <div
-            class="lg:col-span-6 bg-slate-900/60 border border-slate-800 rounded-2xl p-6 flex flex-col justify-between">
+          <div class="lg:col-span-6 bg-slate-900/60 border border-slate-800 rounded-2xl p-6 flex flex-col justify-between">
             <h3 class="font-bold text-white text-base mb-4 font-sans">Proyeksi Gas Fee Bulanan</h3>
-            <div class="h-56">
+            <div class="relative h-64 w-full">
               <canvas id="costChart"></canvas>
             </div>
           </div>
 
-          <div class="lg:col-span-6 space-y-4">
-            <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 space-y-3">
+          <div class="lg:col-span-6 flex flex-col justify-between gap-4">
+            <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 space-y-3 flex-1">
               <div class="flex justify-between items-center border-b border-slate-800 pb-2">
                 <span class="font-bold text-slate-200">ETH (Ethereum Gas Token)</span>
-                <span
-                  class="px-2 py-0.5 bg-yellow-500/20 text-yellow-400 text-[10px] font-semibold border border-yellow-500/30 rounded-full">Likuiditas
-                  Tinggi</span>
+                <span class="px-2 py-0.5 bg-yellow-500/20 text-yellow-400 text-[10px] font-semibold border border-yellow-500/30 rounded-full">Likuiditas Tinggi</span>
               </div>
               <p class="text-xs text-slate-400 leading-relaxed">
-                Digunakan oleh **Optimism, Base, dan Arbitrum**. Volatilitas rata-rata bulanan berada pada tingkat
-                **&plusmn;15%** (2025-2026). Perubahan harga yang moderat ini memberikan kestabilan anggaran operasional
-                bagi perusahaan.
+                Digunakan oleh jaringan Optimism, Base, dan Arbitrum. Volatilitas rata-rata bulanan berada pada tingkat &plusmn;15% (2025-2026). Perubahan harga yang moderat ini memberikan kestabilan anggaran operasional bagi perusahaan.
               </p>
             </div>
 
-            <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 space-y-3">
+            <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 space-y-3 flex-1">
               <div class="flex justify-between items-center border-b border-slate-800 pb-2">
                 <span class="font-bold text-slate-200">POL (Polygon Gas Token)</span>
-                <span
-                  class="px-2 py-0.5 bg-red-500/20 text-red-400 text-[10px] font-semibold border border-red-500/30 rounded-full">Volatilitas
-                  Tinggi</span>
+                <span class="px-2 py-0.5 bg-red-500/20 text-red-400 text-[10px] font-semibold border border-red-500/30 rounded-full">Volatilitas Tinggi</span>
               </div>
               <p class="text-xs text-slate-400 leading-relaxed">
-                Digunakan oleh **Polygon PoS**. Volatilitas koin POL tercatat mencapai **&plusmn;35%** (2025-2026).
-                Fluktuasi ini dapat mempersulit estimasi anggaran biaya gas bulanan serta meningkatkan resiko
-                operasional jika terjadi lonjakan mendadak.
+                Digunakan oleh jaringan Polygon PoS. Volatilitas koin POL tercatat mencapai &plusmn;35% (2025-2026). Fluktuasi ini dapat mempersulit estimasi anggaran biaya gas bulanan serta meningkatkan resiko operasional jika terjadi lonjakan mendadak.
               </p>
             </div>
           </div>
@@ -467,8 +470,7 @@
       <div class="space-y-6">
         <div>
           <span class="text-xs font-bold text-red-400 uppercase tracking-widest">KEAMANAN & RELIABILITAS</span>
-          <h2 class="text-2xl md:text-3xl font-extrabold text-white mt-1">Stabilitas Jaringan & Riwayat Downtime
-            (2024-2026)</h2>
+          <h2 class="text-2xl md:text-3xl font-extrabold text-white mt-1">Stabilitas Jaringan & Riwayat Downtime (2024-2026)</h2>
           <p class="text-sm text-slate-500 mt-1">Menilai uptime sequencer dan integritas status on-chain.</p>
         </div>
 
@@ -482,8 +484,7 @@
                 Uptime</span>
             </div>
             <p class="text-xs text-slate-400 leading-relaxed">
-              **0 menit downtime sequencer** yang tidak direncanakan selama periode 2025-2026. Sangat direkomendasikan
-              untuk stabilitas tinggi dApp fintech korporat.
+              Tercatat <strong>0 menit downtime sequencer</strong> yang tidak direncanakan selama periode 2025-2026. Sangat direkomendasikan untuk stabilitas tinggi dApp fintech korporat.
             </p>
           </div>
 
@@ -496,8 +497,7 @@
                 Uptime</span>
             </div>
             <p class="text-xs text-slate-400 leading-relaxed">
-              Mengalami gangguan sequencer minor ("unsafe head stall") di awal 2024, namun setelah perbaikan total di
-              tahun 2025-2026, jaringan beroperasi dengan keandalan penuh.
+              Mengalami gangguan sequencer minor ("unsafe head stall") di awal 2024, namun setelah perbaikan total di tahun 2025-2026, jaringan beroperasi dengan keandalan penuh.
             </p>
           </div>
 
@@ -510,8 +510,7 @@
                 Uptime</span>
             </div>
             <p class="text-xs text-slate-400 leading-relaxed">
-              Terjadi sequencer crash total selama **29 menit** pada Agustus 2025. Dilanjutkan dengan kegagalan update
-              state L1 (TEE Enclave Bug) selama **30 jam** pada Mei 2026.
+              Terjadi sequencer crash total selama <strong>29 menit</strong> pada Agustus 2025. Dilanjutkan dengan kegagalan update state L1 (TEE Enclave Bug) selama <strong>30 jam</strong> pada Mei 2026.
             </p>
           </div>
 
@@ -524,8 +523,7 @@
                 Uptime</span>
             </div>
             <p class="text-xs text-slate-400 leading-relaxed">
-              Validator consensus layer (Heimdall) terhenti selama **1 jam** akibat validator bug pada Juli 2025. Selain
-              itu, kinerja server RPC publik gratisan sering mengalami degradasi.
+              Validator consensus layer (Heimdall) terhenti selama <strong>1 jam</strong> akibat validator bug pada Juli 2025. Selain itu, kinerja server RPC publik gratisan sering mengalami degradasi.
             </p>
           </div>
         </div>
@@ -538,8 +536,7 @@
         <div>
           <span class="text-xs font-bold text-blue-400 uppercase tracking-widest">ANALISIS INFRASTRUKTUR</span>
           <h2 class="text-2xl md:text-3xl font-extrabold text-white mt-1">Biaya & Limitasi RPC Provider</h2>
-          <p class="text-sm text-slate-500 mt-1">Menghitung total kuota API bulanan (~51.000 request) terhadap kuota
-            gratis provider.</p>
+          <p class="text-sm text-slate-500 mt-1">Menghitung total kuota API bulanan (~51.000 request) terhadap kuota gratis provider.</p>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -548,13 +545,11 @@
               <div class="text-indigo-400 font-bold text-base border-b border-slate-800 pb-2">Alchemy</div>
               <p class="text-[10px] text-slate-500 uppercase font-mono">Compute Units (CU)</p>
               <p class="text-xs text-slate-400 leading-relaxed">
-                Menawarkan **30M CU/bulan** gratis. Konsumsi estimasi kita sekitar **1,37M CU/bulan** (Rata-rata 27 CU
-                per call).
+                Menawarkan <strong>30 Juta CU/bulan</strong> secara gratis. Konsumsi estimasi bulanan kita sangat kecil yaitu sekitar <strong>1,37 Juta CU/bulan</strong> (Rata-rata 27 CU per call).
               </p>
             </div>
             <span
-              class="px-2 py-1 bg-emerald-500/20 text-emerald-400 text-center text-xs font-bold rounded-lg border border-emerald-500/30">Aman
-              & Gratis</span>
+              class="px-2 py-1 bg-emerald-500/20 text-emerald-400 text-center text-xs font-bold rounded-lg border border-emerald-500/30">Aman & Gratis</span>
           </div>
 
           <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 space-y-4 flex flex-col justify-between">
@@ -562,12 +557,11 @@
               <div class="text-blue-400 font-bold text-base border-b border-slate-800 pb-2">Infura</div>
               <p class="text-[10px] text-slate-500 uppercase font-mono">Daily Credits</p>
               <p class="text-xs text-slate-400 leading-relaxed">
-                Menawarkan **3M request/hari** gratis. Total beban kita hanya ~1.700 request/hari (Sangat melimpah).
+                Menawarkan kuota melimpah hingga <strong>3 Juta request/hari</strong> gratis. Total beban operasional harian kita hanya berkisar ~1.700 request/hari.
               </p>
             </div>
             <span
-              class="px-2 py-1 bg-emerald-500/20 text-emerald-400 text-center text-xs font-bold rounded-lg border border-emerald-500/30">Aman
-              & Gratis</span>
+              class="px-2 py-1 bg-emerald-500/20 text-emerald-400 text-center text-xs font-bold rounded-lg border border-emerald-500/30">Aman & Gratis</span>
           </div>
 
           <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 space-y-4 flex flex-col justify-between">
@@ -575,12 +569,11 @@
               <div class="text-emerald-400 font-bold text-base border-b border-slate-800 pb-2">Chainstack</div>
               <p class="text-[10px] text-slate-500 uppercase font-mono">Request Units (RU)</p>
               <p class="text-xs text-slate-400 leading-relaxed">
-                Menawarkan **3M RU/bulan** gratis. Konsumsi kita hanya **51.000 RU/bulan** (Skema flat 1 call = 1 RU).
+                Menawarkan limit <strong>3 Juta RU/bulan</strong> gratis. Konsumsi flat rate operasional kita sangat aman hanya sebesar <strong>51.000 RU/bulan</strong> (1 call = 1 RU).
               </p>
             </div>
             <span
-              class="px-2 py-1 bg-emerald-500/20 text-emerald-400 text-center text-xs font-bold rounded-lg border border-emerald-500/30">Aman
-              & Gratis</span>
+              class="px-2 py-1 bg-emerald-500/20 text-emerald-400 text-center text-xs font-bold rounded-lg border border-emerald-500/30">Aman & Gratis</span>
           </div>
 
           <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 space-y-4 flex flex-col justify-between">
@@ -588,12 +581,11 @@
               <div class="text-cyan-400 font-bold text-base border-b border-slate-800 pb-2">QuickNode</div>
               <p class="text-[10px] text-slate-500 uppercase font-mono">API Credits</p>
               <p class="text-xs text-slate-400 leading-relaxed">
-                Menawarkan **10M API Credits/bulan** gratis. Estimasi konsumsi kita sekitar **1.5M Credits/bulan**.
+                Menawarkan <strong>10 Juta API Credits/bulan</strong> gratis. Estimasi konsumsi dApp operasional kita hanya sekitar <strong>1,5 Juta Credits/bulan</strong>.
               </p>
             </div>
             <span
-              class="px-2 py-1 bg-emerald-500/20 text-emerald-400 text-center text-xs font-bold rounded-lg border border-emerald-500/30">Aman
-              & Gratis</span>
+              class="px-2 py-1 bg-emerald-500/20 text-emerald-400 text-center text-xs font-bold rounded-lg border border-emerald-500/30">Aman & Gratis</span>
           </div>
         </div>
       </div>
@@ -607,24 +599,20 @@
             class="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold rounded-full">
             🏆 REKOMENDASI UTAMA
           </span>
-          <h2 class="text-4xl font-extrabold text-white leading-tight">
+          <h2 class="text-4xl font-extrabold text-white leading-tight font-sans">
             Optimism Mainnet Sebagai Pilihan Utama Jaringan
           </h2>
           <p class="text-slate-400 leading-relaxed text-sm">
-            Berdasarkan data uji coba, **Optimism** menawarkan rasio biaya operasional bulanan terendah (~$1.33) dengan
-            keandalan tinggi (99.95%). Volatilitas token gas ETH juga jauh lebih aman diproyeksikan daripada token POL
-            (Polygon).
+            Berdasarkan data uji coba riil, jaringan Optimism menawarkan rasio biaya operasional bulanan terendah (~$1.33) dengan keandalan tinggi (99.95%). Volatilitas token gas ETH juga jauh lebih aman diproyeksikan daripada token POL (Polygon).
           </p>
           <div class="border-t border-slate-800 pt-4 space-y-2 text-xs">
             <div class="flex items-center gap-2"><span class="text-blue-500 font-bold">1.</span> <span
-                class="text-slate-300">Gunakan <strong>Infura</strong> sebagai RPC primer karena performa verifikasi
-                tercepat.</span></div>
+                class="text-slate-300">Gunakan <strong>Infura</strong> sebagai RPC primer karena performa verifikasi tercepat.</span></div>
             <div class="flex items-center gap-2"><span class="text-blue-500 font-bold">2.</span> <span
                 class="text-slate-300">Siapkan <strong>Alchemy</strong> sebagai fallback RPC otomatis di backend.</span>
             </div>
             <div class="flex items-center gap-2"><span class="text-blue-500 font-bold">3.</span> <span
-                class="text-slate-300">Lakukan <em>Hedging</em> gas token ETH senilai anggaran operasional 6
-                bulan.</span></div>
+                class="text-slate-300">Lakukan <em>Hedging</em> gas token ETH senilai anggaran operasional 6 bulan.</span></div>
           </div>
         </div>
 
@@ -776,6 +764,14 @@
         options: {
           responsive: true,
           maintainAspectRatio: false,
+          layout: {
+            padding: {
+              bottom: 10,
+              top: 5,
+              left: 5,
+              right: 5
+            }
+          },
           plugins: {
             legend: {
               labels: {
