@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analisis Multi-Chain - BuktiTempoVerifier</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Outfit Google Font -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
+    rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Outfit', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #0b0f19;
+      color: #f1f5f9;
+      overflow-x: hidden;
+    }
+
+    .slide-transition {
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 9999px;
+    }
+  </style>
+</head>
+
+<body class="font-sans antialiased min-h-screen flex flex-col justify-between p-4 md:p-8">
+
+  <!-- Header -->
+  <header class="max-w-7xl w-full mx-auto flex justify-between items-center border-b border-slate-800 pb-4">
+    <div class="flex items-center gap-2">
+      <span
+        class="px-2.5 py-1 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg text-xs font-black tracking-widest text-white">FINTECH1000S</span>
+      <h1 class="text-xs md:text-sm font-semibold text-slate-400">PT. Mitra Seribu Saudara</h1>
+    </div>
+  </header>
+
+  <!-- Slide Container -->
+  <main class="flex-grow flex items-center justify-center py-6 w-full max-w-6xl mx-auto">
+
+    <!-- Slide 1: Judul & Executive Summary -->
+    <div id="slide-1" class="w-full slide-content slide-transition flex flex-col justify-center min-h-[500px]">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        <div class="lg:col-span-7 space-y-6">
+          <span
+            class="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-bold rounded-full">
+            💡 EVALUASI ARCHITECTURE
+          </span>
+          <h2 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight font-sans">
+            Analisis Kelayakan & Rekomendasi Jaringan Blockchain
+          </h2>
+          <p class="text-lg text-slate-400">
+            Menentukan Fondasi On-chain Terbaik untuk Menyimpan <strong class="text-blue-400 font-semibold">5.000 -
+              7.000 Invoice Bulanan</strong> PT. Mitra Seribu Saudara.
+          </p>
+          <div class="flex flex-wrap gap-3 pt-2">
+            <span
+              class="flex items-center gap-1 px-3 py-1 bg-slate-800/80 border border-slate-700/50 rounded-lg text-xs text-slate-300"><img
+                src="./Polygon.svg" alt="Polygon" class="w-3.5 h-3.5"> Polygon PoS</span>
+            <span
+              class="flex items-center gap-1 px-3 py-1 bg-slate-800/80 border border-slate-700/50 rounded-lg text-xs text-slate-300"><img
+                src="./Optimism.png" alt="Optimism" class="w-3.5 h-3.5"> Optimism</span>
+            <span
+              class="flex items-center gap-1 px-3 py-1 bg-slate-800/80 border border-slate-700/50 rounded-lg text-xs text-slate-300"><img
+                src="./Base.png" alt="Base" class="w-3.5 h-3.5"> Base</span>
+            <span
+              class="flex items-center gap-1 px-3 py-1 bg-slate-800/80 border border-slate-700/50 rounded-lg text-xs text-slate-300"><img
+                src="./Arbitrum.png" alt="Arbitrum" class="w-3.5 h-3.5"> Arbitrum</span>
+          </div>
+        </div>
+        <div class="lg:col-span-5 bg-slate-900/60 border border-slate-800 rounded-3xl p-6 md:p-8 backdrop-blur-md">
+          <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+            🚀 Executive Summary
+          </h3>
+          <ul class="space-y-4 text-sm text-slate-400">
+            <li class="flex gap-2">
+              <span class="text-emerald-400 font-bold">✓</span>
+              <span><strong>Data Empiris Gas Fee:</strong> Membandingkan uji coba nyata di 4 jaringan EVM.</span>
+            </li>
+            <li class="flex gap-2">
+              <span class="text-emerald-400 font-bold">✓</span>
+              <span><strong>Analisis Beban RPC:</strong> Menghitung Write vs Read untuk 4 provider infrastruktur
+                utama.</span>
+            </li>
+            <li class="flex gap-2">
+              <span class="text-emerald-400 font-bold">✓</span>
+              <span><strong>Mitigasi Resiko:</strong> Menganalisis volatilitas token gas untuk budgeting operasional
+                jangka panjang.</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 2: Jenis RPC Request & Beban API Bulanan -->
+    <div id="slide-2" class="w-full slide-content slide-transition hidden flex flex-col justify-center min-h-[500px]">
+      <div class="space-y-6">
+        <div class="flex justify-between items-end">
+          <div>
+            <span class="text-xs font-bold text-indigo-400 uppercase tracking-widest">ANALISIS INFRASTRUKTUR</span>
+            <h2 class="text-2xl md:text-3xl font-extrabold text-white mt-1">Jenis RPC Request & Beban API Bulanan</h2>
+          </div>
+          <span
+            class="px-3 py-1 bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 text-xs font-mono rounded-lg">~51.000
+            Requests/Bulan</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 space-y-4">
+            <div
+              class="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400 text-lg font-bold">
+              ✏️</div>
+            <div>
+              <h3 class="font-bold text-white text-base">Write Request (`storeHash`)</h3>
+              <p class="text-xs text-slate-500 mt-1">Mengubah State Blockchain</p>
+            </div>
+            <p class="text-3xl font-extrabold text-blue-400 font-mono">~6.000 <span
+                class="text-xs font-normal text-slate-500">call/bln</span></p>
+            <p class="text-xs text-slate-400 leading-relaxed border-t border-slate-800 pt-3">
+              Membutuhkan validasi blockchain dan memakan biaya native gas fee (POL/ETH).
+            </p>
+          </div>
+
+          <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 space-y-4">
+            <div
+              class="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400 text-lg font-bold">
+              🔍</div>
+            <div>
+              <h3 class="font-bold text-white text-base">Read Request (`documentExists`)</h3>
+              <p class="text-xs text-slate-500 mt-1">Query Pengecekan Duplikasi</p>
+            </div>
+            <p class="text-3xl font-extrabold text-purple-400 font-mono">~30.000 <span
+                class="text-xs font-normal text-slate-500">call/bln</span></p>
+            <p class="text-xs text-slate-400 leading-relaxed border-t border-slate-800 pt-3">
+              Dilakukan otomatis oleh sistem frontend saat menginisialisasi list invoice. **100% Gratis** (tanpa gas
+              fee).
+            </p>
+          </div>
+
+          <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 space-y-4">
+            <div
+              class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-lg font-bold">
+              ✓</div>
+            <div>
+              <h3 class="font-bold text-white text-base">Read Request (`verifyDocument`)</h3>
+              <p class="text-xs text-slate-500 mt-1">Verifikasi Manual (verify.html)</p>
+            </div>
+            <p class="text-3xl font-extrabold text-emerald-400 font-mono">~15.000 <span
+                class="text-xs font-normal text-slate-500">call/bln</span></p>
+            <p class="text-xs text-slate-400 leading-relaxed border-t border-slate-800 pt-3">
+              Dipicu ketika pengguna melakukan scan QR code untuk membuktikan orisinalitas hash. **100% Gratis**.
+            </p>
+          </div>
+        </div>
+
+        <div
+          class="bg-slate-900/40 border border-slate-800/80 rounded-xl p-4 text-xs text-slate-400 flex items-start gap-3">
+          <span class="text-amber-500 text-sm">💡</span>
+          <p>
+            Meskipun read call gratis (tanpa gas fee), semua request ini tetap memakan limitasi bandwidth (credits) RPC
+            Provider. Oleh karena itu, kita membutuhkan provider dengan free tier yang melimpah.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 3: Data Transaksi Nyata (Uji Coba Lapangan) -->
+    <div id="slide-3" class="w-full slide-content slide-transition hidden flex flex-col justify-center min-h-[500px]">
+      <div class="space-y-6">
+        <div>
+          <span class="text-xs font-bold text-blue-400 uppercase tracking-widest">DATA EMPIRIS</span>
+          <h2 class="text-2xl md:text-3xl font-extrabold text-white mt-1">Hasil Uji Coba Transaksi Riil</h2>
+          <p class="text-xs text-slate-500 mt-1">Data gas fee ril yang diperoleh langsung dari pengujian nyata</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+          <div class="lg:col-span-8 overflow-x-auto bg-slate-900/60 border border-slate-800 rounded-2xl p-5">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="border-b border-slate-800 text-xs text-slate-500 uppercase font-mono">
+                  <th class="py-3 px-4">Jaringan</th>
+                  <th class="py-3 px-4">Gas Used (Rata-rata)</th>
+                  <th class="py-3 px-4">Gas Fee (Native)</th>
+                  <th class="py-3 px-4">Estimasi USD</th>
+                  <th class="py-3 px-4">Token Gas</th>
+                </tr>
+              </thead>
+              <tbody class="text-sm divide-y divide-slate-800/50">
+                <tr class="hover:bg-slate-900/30">
+                  <td class="py-4 px-4 font-bold text-purple-400 flex items-center gap-2">
+                    <img src="./Polygon.svg" alt="Polygon" class="w-4 h-4"> Polygon PoS
+                  </td>
+                  <td class="py-4 px-4 font-mono">134.521 Gas</td>
+                  <td class="py-4 px-4 font-mono">0.043 POL</td>
+                  <td class="py-4 px-4 font-bold text-slate-200">~$0.00350</td>
+                  <td class="py-4 px-4 text-xs text-slate-400">POL (ex-MATIC)</td>
+                </tr>
+                <tr class="hover:bg-slate-900/30">
+                  <td class="py-4 px-4 font-bold text-red-400 flex items-center gap-2">
+                    <img src="./Optimism.png" alt="Optimism" class="w-4 h-4"> Optimism L2
+                  </td>
+                  <td class="py-4 px-4 font-mono">121.081 Gas</td>
+                  <td class="py-4 px-4 font-mono">0.000000122 ETH</td>
+                  <td class="py-4 px-4 font-bold text-emerald-400">~$0.00019</td>
+                  <td class="py-4 px-4 text-xs text-slate-400">ETH</td>
+                </tr>
+                <tr class="hover:bg-slate-900/30">
+                  <td class="py-4 px-4 font-bold text-blue-400 flex items-center gap-2">
+                    <img src="./Base.png" alt="Base" class="w-4 h-4"> Base L2
+                  </td>
+                  <td class="py-4 px-4 font-mono">121.081 Gas</td>
+                  <td class="py-4 px-4 font-mono">0.000000727 ETH</td>
+                  <td class="py-4 px-4 font-bold text-slate-200">~$0.00117</td>
+                  <td class="py-4 px-4 text-xs text-slate-400">ETH</td>
+                </tr>
+                <tr class="hover:bg-slate-900/30">
+                  <td class="py-4 px-4 font-bold text-cyan-400 flex items-center gap-2">
+                    <img src="./Arbitrum.png" alt="Arbitrum" class="w-4 h-4"> Arbitrum L2
+                  </td>
+                  <td class="py-4 px-4 font-mono">121.642 Gas</td>
+                  <td class="py-4 px-4 font-mono">0.000002432 ETH</td>
+                  <td class="py-4 px-4 font-bold text-slate-200">~$0.00392</td>
+                  <td class="py-4 px-4 text-xs text-slate-400">ETH</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div
+            class="lg:col-span-4 bg-slate-900/60 border border-slate-800 rounded-2xl p-5 flex flex-col justify-between">
+            <div>
+              <h3 class="font-bold text-white text-base mb-3">💡 Insight Utama</h3>
+              <p class="text-xs text-slate-400 leading-relaxed">
+                **Optimism L2** memangkas pengeluaran gas hingga **94.5%** dibandingkan dengan Polygon PoS. Hal ini
+                disebabkan efisiensi kompresi data L2-ke-L1 dan optimalisasi OP Stack Bedrock yang sangat matang dalam
+                melakukan kalkulasi state-update.
+              </p>
+            </div>
+            <div class="border-t border-slate-800 pt-3 mt-3">
+              <span class="text-[10px] text-slate-500 uppercase tracking-widest font-mono block mb-1">Status Data</span>
+              <span
+                class="px-2 py-0.5 bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 rounded text-[10px] font-bold">✓
+                Terverifikasi On-Chain</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 3B (Baru): Raw Transaction Log Viewer -->
+    <div id="slide-3b" class="w-full slide-content slide-transition hidden flex flex-col justify-center min-h-[500px]">
+      <div class="space-y-4">
+        <div class="flex justify-between items-end">
+          <div>
+            <span class="text-xs font-bold text-emerald-400 uppercase tracking-widest">TRANSACTION EVIDENCE</span>
+            <h2 class="text-2xl md:text-3xl font-extrabold text-white mt-1">Tx Fee Log Viewer</h2>
+            <p class="text-xs text-slate-500 mt-1">Menampilkan cuplikan data ril hasil eksekusi smart contract dari file
+              Transaction_Fee.txt</p>
+          </div>
+          <a href="./Transaction_Fee.txt" target="_blank"
+            class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-300 border border-slate-700 rounded-lg">
+            Lihat File Lengkap ↗
+          </a>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+          <div class="lg:col-span-4 space-y-2">
+            <button onclick="loadTxLogSnippet('Polygon')"
+              class="w-full p-3 bg-slate-800/60 hover:bg-slate-700/60 border border-slate-700 rounded-xl text-left text-xs font-bold flex items-center justify-between text-purple-400 transition-all">
+              <span class="flex items-center gap-2"><img src="./Polygon.svg" alt="Polygon" class="w-4 h-4"> Polygon Test
+                Log</span>
+              <span>→</span>
+            </button>
+            <button onclick="loadTxLogSnippet('Optimism')"
+              class="w-full p-3 bg-slate-800/60 hover:bg-slate-700/60 border border-slate-700 rounded-xl text-left text-xs font-bold flex items-center justify-between text-red-400 transition-all">
+              <span class="flex items-center gap-2"><img src="./Optimism.png" alt="Optimism" class="w-4 h-4"> Optimism
+                Test Log</span>
+              <span>→</span>
+            </button>
+            <button onclick="loadTxLogSnippet('Base')"
+              class="w-full p-3 bg-slate-800/60 hover:bg-slate-700/60 border border-slate-700 rounded-xl text-left text-xs font-bold flex items-center justify-between text-blue-400 transition-all">
+              <span class="flex items-center gap-2"><img src="./Base.png" alt="Base" class="w-4 h-4"> Base Test
+                Log</span>
+              <span>→</span>
+            </button>
+            <button onclick="loadTxLogSnippet('Arbitrum')"
+              class="w-full p-3 bg-slate-800/60 hover:bg-slate-700/60 border border-slate-700 rounded-xl text-left text-xs font-bold flex items-center justify-between text-cyan-400 transition-all">
+              <span class="flex items-center gap-2"><img src="./Arbitrum.png" alt="Arbitrum" class="w-4 h-4"> Arbitrum
+                Test Log</span>
+              <span>→</span>
+            </button>
+          </div>
+          <div class="lg:col-span-8 flex flex-col justify-between bg-slate-950 border border-slate-800 rounded-2xl p-4">
+            <div
+              class="h-64 overflow-y-auto font-mono text-[10px] text-slate-400 p-2 bg-slate-950 rounded border border-slate-900/50 leading-relaxed whitespace-pre"
+              id="tx-log-content">
+              Klik salah satu tombol log di sebelah kiri untuk memuat cuplikan data transaksi riil dari file.
+            </div>
+            <p class="text-[10px] text-slate-500 mt-2 italic">
+              Data ditarik secara dinamis dari file presentasi lokal / server.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 4: Kecepatan Konfirmasi & Finalitas Jaringan -->
+    <div id="slide-4" class="w-full slide-content slide-transition hidden flex flex-col justify-center min-h-[500px]">
+      <div class="space-y-6">
+        <div>
+          <span class="text-xs font-bold text-amber-400 uppercase tracking-widest">KINERJA & UX</span>
+          <h2 class="text-2xl md:text-3xl font-extrabold text-white mt-1">Kecepatan Konfirmasi & Finalitas Jaringan</h2>
+          <p class="text-sm text-slate-500 mt-1">Mengukur kecepatan respons sistem (UX) dan tingkat kekekalan data
+            on-chain.</p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 space-y-3">
+            <div class="flex items-center gap-2 text-cyan-400 font-bold"><img src="./Arbitrum.png" alt="Arbitrum"
+                class="w-4.5 h-4.5"> Arbitrum</div>
+            <div class="space-y-1.5 pt-2 text-xs">
+              <div class="flex justify-between border-b border-slate-800/60 pb-1.5"><span class="text-slate-500">Block
+                  Time</span><span class="font-mono font-bold text-white">~250ms</span></div>
+              <div class="flex justify-between border-b border-slate-800/60 pb-1.5"><span class="text-slate-500">Soft
+                  Finality</span><span class="font-mono text-emerald-400">~250ms</span></div>
+              <div class="flex justify-between"><span class="text-slate-500">L1 Settlement</span><span
+                  class="font-mono text-slate-400">~13 Menit</span></div>
+            </div>
+            <p class="text-[10px] text-slate-500 italic pt-2 leading-relaxed">Tercepat dalam memberikan konfirmasi UI
+              kepada user.</p>
+          </div>
+
+          <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 space-y-3">
+            <div class="flex items-center gap-2 text-blue-400 font-bold"><img src="./Base.png" alt="Base"
+                class="w-4.5 h-4.5"> Base</div>
+            <div class="space-y-1.5 pt-2 text-xs">
+              <div class="flex justify-between border-b border-slate-800/60 pb-1.5"><span class="text-slate-500">Block
+                  Time</span><span class="font-mono font-bold text-white">~2 Detik</span></div>
+              <div class="flex justify-between border-b border-slate-800/60 pb-1.5"><span class="text-slate-500">Soft
+                  Finality</span><span class="font-mono text-emerald-400">~200ms*</span></div>
+              <div class="flex justify-between"><span class="text-slate-500">L1 Settlement</span><span
+                  class="font-mono text-slate-400">~13 Menit</span></div>
+            </div>
+            <p class="text-[10px] text-slate-500 italic pt-2 leading-relaxed">*Menggunakan OP Stack Flashblocks untuk
+              pre-confirmations instan.</p>
+          </div>
+
+          <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 space-y-3">
+            <div class="flex items-center gap-2 text-red-400 font-bold"><img src="./Optimism.png" alt="Optimism"
+                class="w-4.5 h-4.5"> Optimism</div>
+            <div class="space-y-1.5 pt-2 text-xs">
+              <div class="flex justify-between border-b border-slate-800/60 pb-1.5"><span class="text-slate-500">Block
+                  Time</span><span class="font-mono font-bold text-white">~2 Detik</span></div>
+              <div class="flex justify-between border-b border-slate-800/60 pb-1.5"><span class="text-slate-500">Soft
+                  Finality</span><span class="font-mono text-slate-400">~2 Detik</span></div>
+              <div class="flex justify-between"><span class="text-slate-500">L1 Settlement</span><span
+                  class="font-mono text-slate-400">~16 Menit</span></div>
+            </div>
+            <p class="text-[10px] text-slate-500 italic pt-2 leading-relaxed">Menggunakan OP stack standar dengan
+              performa stabil.</p>
+          </div>
+
+          <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 space-y-3">
+            <div class="flex items-center gap-2 text-purple-400 font-bold"><img src="./Polygon.svg" alt="Polygon"
+                class="w-4.5 h-4.5"> Polygon PoS</div>
+            <div class="space-y-1.5 pt-2 text-xs">
+              <div class="flex justify-between border-b border-slate-800/60 pb-1.5"><span class="text-slate-500">Block
+                  Time</span><span class="font-mono font-bold text-white">~1.75 Detik</span></div>
+              <div class="flex justify-between border-b border-slate-800/60 pb-1.5"><span class="text-slate-500">Soft
+                  Finality</span><span class="font-mono text-slate-400">~2 Detik</span></div>
+              <div class="flex justify-between"><span class="text-slate-500">L1 Settlement</span><span
+                  class="font-mono text-emerald-400">~5 Menit</span></div>
+            </div>
+            <p class="text-[10px] text-slate-500 italic pt-2 leading-relaxed">Checkpointing L1 tercepat namun rentan
+              reorg jaringan lokal.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 5: Proyeksi Biaya Operasional & Volatilitas Token -->
+    <div id="slide-5" class="w-full slide-content slide-transition hidden flex flex-col justify-center min-h-[500px]">
+      <div class="space-y-6">
+        <div>
+          <span class="text-xs font-bold text-emerald-400 uppercase tracking-widest">BUDGETING & FINANCIALS</span>
+          <h2 class="text-2xl md:text-3xl font-extrabold text-white mt-1">Biaya Bulanan & Risiko Volatilitas Koin</h2>
+          <p class="text-sm text-slate-500 mt-1">Analisis anggaran operasional berdasarkan konsumsi 5.000 - 7.000
+            transaksi/bulan.</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+          <div
+            class="lg:col-span-6 bg-slate-900/60 border border-slate-800 rounded-2xl p-6 flex flex-col justify-between">
+            <h3 class="font-bold text-white text-base mb-4 font-sans">Proyeksi Gas Fee Bulanan</h3>
+            <div class="h-56">
+              <canvas id="costChart"></canvas>
+            </div>
+          </div>
+
+          <div class="lg:col-span-6 space-y-4">
+            <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 space-y-3">
+              <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+                <span class="font-bold text-slate-200">ETH (Ethereum Gas Token)</span>
+                <span
+                  class="px-2 py-0.5 bg-yellow-500/20 text-yellow-400 text-[10px] font-semibold border border-yellow-500/30 rounded-full">Likuiditas
+                  Tinggi</span>
+              </div>
+              <p class="text-xs text-slate-400 leading-relaxed">
+                Digunakan oleh **Optimism, Base, dan Arbitrum**. Volatilitas rata-rata bulanan berada pada tingkat
+                **&plusmn;15%** (2025-2026). Perubahan harga yang moderat ini memberikan kestabilan anggaran operasional
+                bagi perusahaan.
+              </p>
+            </div>
+
+            <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 space-y-3">
+              <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+                <span class="font-bold text-slate-200">POL (Polygon Gas Token)</span>
+                <span
+                  class="px-2 py-0.5 bg-red-500/20 text-red-400 text-[10px] font-semibold border border-red-500/30 rounded-full">Volatilitas
+                  Tinggi</span>
+              </div>
+              <p class="text-xs text-slate-400 leading-relaxed">
+                Digunakan oleh **Polygon PoS**. Volatilitas koin POL tercatat mencapai **&plusmn;35%** (2025-2026).
+                Fluktuasi ini dapat mempersulit estimasi anggaran biaya gas bulanan serta meningkatkan resiko
+                operasional jika terjadi lonjakan mendadak.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 6: Analisis Keandalan Jaringan (Data Downtime) -->
+    <div id="slide-6" class="w-full slide-content slide-transition hidden flex flex-col justify-center min-h-[500px]">
+      <div class="space-y-6">
+        <div>
+          <span class="text-xs font-bold text-red-400 uppercase tracking-widest">KEAMANAN & RELIABILITAS</span>
+          <h2 class="text-2xl md:text-3xl font-extrabold text-white mt-1">Stabilitas Jaringan & Riwayat Downtime
+            (2024-2026)</h2>
+          <p class="text-sm text-slate-500 mt-1">Menilai uptime sequencer dan integritas status on-chain.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 space-y-4">
+            <div class="flex justify-between items-center border-b border-slate-800/80 pb-3">
+              <div class="flex items-center gap-2 font-bold text-cyan-400"><img src="./Arbitrum.png" alt="Arbitrum"
+                  class="w-4 h-4"> Arbitrum Mainnet</div>
+              <span
+                class="px-2.5 py-0.5 bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs font-bold rounded-full">99.99%
+                Uptime</span>
+            </div>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              **0 menit downtime sequencer** yang tidak direncanakan selama periode 2025-2026. Sangat direkomendasikan
+              untuk stabilitas tinggi dApp fintech korporat.
+            </p>
+          </div>
+
+          <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 space-y-4">
+            <div class="flex justify-between items-center border-b border-slate-800/80 pb-3">
+              <div class="flex items-center gap-2 font-bold text-red-400"><img src="./Optimism.png" alt="Optimism"
+                  class="w-4 h-4"> Optimism Mainnet</div>
+              <span
+                class="px-2.5 py-0.5 bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs font-bold rounded-full">99.95%
+                Uptime</span>
+            </div>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              Mengalami gangguan sequencer minor ("unsafe head stall") di awal 2024, namun setelah perbaikan total di
+              tahun 2025-2026, jaringan beroperasi dengan keandalan penuh.
+            </p>
+          </div>
+
+          <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 space-y-4">
+            <div class="flex justify-between items-center border-b border-slate-800/80 pb-3">
+              <div class="flex items-center gap-2 font-bold text-blue-400"><img src="./Base.png" alt="Base"
+                  class="w-4 h-4"> Base Mainnet</div>
+              <span
+                class="px-2.5 py-0.5 bg-amber-500/20 text-amber-400 border border-amber-500/30 text-xs font-bold rounded-full">99.90%
+                Uptime</span>
+            </div>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              Terjadi sequencer crash total selama **29 menit** pada Agustus 2025. Dilanjutkan dengan kegagalan update
+              state L1 (TEE Enclave Bug) selama **30 jam** pada Mei 2026.
+            </p>
+          </div>
+
+          <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 space-y-4">
+            <div class="flex justify-between items-center border-b border-slate-800/80 pb-3">
+              <div class="flex items-center gap-2 font-bold text-purple-400"><img src="./Polygon.svg" alt="Polygon"
+                  class="w-4 h-4"> Polygon PoS</div>
+              <span
+                class="px-2.5 py-0.5 bg-red-500/20 text-red-400 border border-red-500/30 text-xs font-bold rounded-full">99.85%
+                Uptime</span>
+            </div>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              Validator consensus layer (Heimdall) terhenti selama **1 jam** akibat validator bug pada Juli 2025. Selain
+              itu, kinerja server RPC publik gratisan sering mengalami degradasi.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 7: Analisis RPC Provider & Peta Biaya Operasional -->
+    <div id="slide-7" class="w-full slide-content slide-transition hidden flex flex-col justify-center min-h-[500px]">
+      <div class="space-y-6">
+        <div>
+          <span class="text-xs font-bold text-blue-400 uppercase tracking-widest">ANALISIS INFRASTRUKTUR</span>
+          <h2 class="text-2xl md:text-3xl font-extrabold text-white mt-1">Biaya & Limitasi RPC Provider</h2>
+          <p class="text-sm text-slate-500 mt-1">Menghitung total kuota API bulanan (~51.000 request) terhadap kuota
+            gratis provider.</p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 space-y-4 flex flex-col justify-between">
+            <div class="space-y-2">
+              <div class="text-indigo-400 font-bold text-base border-b border-slate-800 pb-2">Alchemy</div>
+              <p class="text-[10px] text-slate-500 uppercase font-mono">Compute Units (CU)</p>
+              <p class="text-xs text-slate-400 leading-relaxed">
+                Menawarkan **30M CU/bulan** gratis. Konsumsi estimasi kita sekitar **1,37M CU/bulan** (Rata-rata 27 CU
+                per call).
+              </p>
+            </div>
+            <span
+              class="px-2 py-1 bg-emerald-500/20 text-emerald-400 text-center text-xs font-bold rounded-lg border border-emerald-500/30">Aman
+              & Gratis</span>
+          </div>
+
+          <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 space-y-4 flex flex-col justify-between">
+            <div class="space-y-2">
+              <div class="text-blue-400 font-bold text-base border-b border-slate-800 pb-2">Infura</div>
+              <p class="text-[10px] text-slate-500 uppercase font-mono">Daily Credits</p>
+              <p class="text-xs text-slate-400 leading-relaxed">
+                Menawarkan **3M request/hari** gratis. Total beban kita hanya ~1.700 request/hari (Sangat melimpah).
+              </p>
+            </div>
+            <span
+              class="px-2 py-1 bg-emerald-500/20 text-emerald-400 text-center text-xs font-bold rounded-lg border border-emerald-500/30">Aman
+              & Gratis</span>
+          </div>
+
+          <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 space-y-4 flex flex-col justify-between">
+            <div class="space-y-2">
+              <div class="text-emerald-400 font-bold text-base border-b border-slate-800 pb-2">Chainstack</div>
+              <p class="text-[10px] text-slate-500 uppercase font-mono">Request Units (RU)</p>
+              <p class="text-xs text-slate-400 leading-relaxed">
+                Menawarkan **3M RU/bulan** gratis. Konsumsi kita hanya **51.000 RU/bulan** (Skema flat 1 call = 1 RU).
+              </p>
+            </div>
+            <span
+              class="px-2 py-1 bg-emerald-500/20 text-emerald-400 text-center text-xs font-bold rounded-lg border border-emerald-500/30">Aman
+              & Gratis</span>
+          </div>
+
+          <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 space-y-4 flex flex-col justify-between">
+            <div class="space-y-2">
+              <div class="text-cyan-400 font-bold text-base border-b border-slate-800 pb-2">QuickNode</div>
+              <p class="text-[10px] text-slate-500 uppercase font-mono">API Credits</p>
+              <p class="text-xs text-slate-400 leading-relaxed">
+                Menawarkan **10M API Credits/bulan** gratis. Estimasi konsumsi kita sekitar **1.5M Credits/bulan**.
+              </p>
+            </div>
+            <span
+              class="px-2 py-1 bg-emerald-500/20 text-emerald-400 text-center text-xs font-bold rounded-lg border border-emerald-500/30">Aman
+              & Gratis</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 8: Rekomendasi Akhir & Next Step -->
+    <div id="slide-8" class="w-full slide-content slide-transition hidden flex flex-col justify-center min-h-[500px]">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        <div class="lg:col-span-7 space-y-6">
+          <span
+            class="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold rounded-full">
+            🏆 REKOMENDASI UTAMA
+          </span>
+          <h2 class="text-4xl font-extrabold text-white leading-tight">
+            Optimism Mainnet Sebagai Pilihan Utama Jaringan
+          </h2>
+          <p class="text-slate-400 leading-relaxed text-sm">
+            Berdasarkan data uji coba, **Optimism** menawarkan rasio biaya operasional bulanan terendah (~$1.33) dengan
+            keandalan tinggi (99.95%). Volatilitas token gas ETH juga jauh lebih aman diproyeksikan daripada token POL
+            (Polygon).
+          </p>
+          <div class="border-t border-slate-800 pt-4 space-y-2 text-xs">
+            <div class="flex items-center gap-2"><span class="text-blue-500 font-bold">1.</span> <span
+                class="text-slate-300">Gunakan <strong>Infura</strong> sebagai RPC primer karena performa verifikasi
+                tercepat.</span></div>
+            <div class="flex items-center gap-2"><span class="text-blue-500 font-bold">2.</span> <span
+                class="text-slate-300">Siapkan <strong>Alchemy</strong> sebagai fallback RPC otomatis di backend.</span>
+            </div>
+            <div class="flex items-center gap-2"><span class="text-blue-500 font-bold">3.</span> <span
+                class="text-slate-300">Lakukan <em>Hedging</em> gas token ETH senilai anggaran operasional 6
+                bulan.</span></div>
+          </div>
+        </div>
+
+        <div
+          class="lg:col-span-5 bg-gradient-to-br from-blue-900/30 to-indigo-900/30 border border-blue-800/40 rounded-3xl p-8 text-center space-y-6">
+          <div class="text-4xl">🚀</div>
+          <h3 class="text-xl font-bold text-white">Siap Melakukan Integrasi?</h3>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Anda dapat langsung meluncurkan smart contract verifikator di platform dashboard Fintech1000s pada jaringan
+            terpilih.
+          </p>
+          <a href="../index.html"
+            class="inline-block w-full py-3 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white text-xs font-bold rounded-xl transition-all shadow-lg shadow-blue-600/30 font-semibold">
+            Kembali ke Aplikasi Utama ↗
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Navigation Controls -->
+  <footer class="max-w-7xl w-full mx-auto flex justify-between items-center border-t border-slate-800 pt-4 mt-6">
+    <div class="flex gap-2">
+      <button onclick="prevSlide()"
+        class="p-2.5 bg-slate-800 hover:bg-slate-700 active:scale-95 border border-slate-700 text-white rounded-lg transition-all text-xs font-bold">
+        ← Prev
+      </button>
+      <button onclick="nextSlide()"
+        class="p-2.5 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white rounded-lg transition-all text-xs font-bold">
+        Next →
+      </button>
+    </div>
+    <div class="text-xs text-slate-500 font-mono">
+      Slide <span id="current-slide-num">1</span> of 9
+    </div>
+  </footer>
+
+  <!-- Slide Control Logic & Chart.js Initialization -->
+  <script>
+    // Membagi flow menjadi 9 slide (slide 3b disisipkan sebagai slide ke-4)
+    const slidesOrder = ['slide-1', 'slide-2', 'slide-3', 'slide-3b', 'slide-4', 'slide-5', 'slide-6', 'slide-7', 'slide-8'];
+    let currentSlideIndex = 0;
+
+    function showSlide(index) {
+      slidesOrder.forEach(id => document.getElementById(id).classList.add('hidden'));
+      document.getElementById(slidesOrder[index]).classList.remove('hidden');
+      document.getElementById('current-slide-num').textContent = (index + 1);
+      currentSlideIndex = index;
+    }
+
+    function nextSlide() {
+      if (currentSlideIndex < slidesOrder.length - 1) {
+        showSlide(currentSlideIndex + 1);
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlideIndex > 0) {
+        showSlide(currentSlideIndex - 1);
+      }
+    }
+
+    // Keyboard Arrow Keys Navigation
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') nextSlide();
+      if (e.key === 'ArrowLeft') prevSlide();
+    });
+
+    // Menarik Data Log secara Asinkronus dari file lokal Transaction_Fee.txt
+    let cachedLogText = "";
+
+    async function fetchRawLogs() {
+      try {
+        const response = await fetch('./Transaction_Fee.txt');
+        if (response.ok) {
+          cachedLogText = await response.text();
+          console.log('Transaction_Fee.txt loaded successfully');
+        } else {
+          cachedLogText = "Gagal memuat file logs. Pastikan file Transaction_Fee.txt ada di direktori yang sama.";
+        }
+      } catch (e) {
+        cachedLogText = "Gagal memuat file log transaksi karena kebijakan CORS pada file:// protocol. Silakan jalankan local HTTP server atau deploy untuk membaca file secara dinamis.";
+      }
+    }
+
+    function loadTxLogSnippet(network) {
+      const container = document.getElementById('tx-log-content');
+      if (!cachedLogText) {
+        container.textContent = "Sedang mengambil data dari file log...";
+        fetchRawLogs().then(() => parseAndDisplaySnippet(network));
+      } else {
+        parseAndDisplaySnippet(network);
+      }
+    }
+
+    function parseAndDisplaySnippet(network) {
+      const container = document.getElementById('tx-log-content');
+      if (cachedLogText.includes("CORS") || cachedLogText.includes("Gagal")) {
+        container.textContent = cachedLogText;
+        return;
+      }
+
+      // Split file berdasarkan delimiter jaringan
+      const parts = cachedLogText.split("===================================================================");
+      let foundText = "";
+
+      for (let part of parts) {
+        if (part.toLowerCase().includes(network.toLowerCase())) {
+          foundText = part.trim();
+          break;
+        }
+      }
+
+      if (foundText) {
+        // Ambil 30 baris pertama agar muat di container dengan rapi
+        const lines = foundText.split("\n").slice(0, 30).join("\n");
+        container.textContent = `=== ${network.toUpperCase()} TRANSACTION FEE RECORD ===\n\n` + lines + "\n\n... (Lihat selengkapnya dengan mengklik tombol Lihat File Lengkap)";
+      } else {
+        container.textContent = `Log transaksi untuk ${network} tidak ditemukan di file.`;
+      }
+    }
+
+    // Inisialisasi awal penarikan log
+    fetchRawLogs();
+
+    // Chart.js untuk Slide 5
+    document.addEventListener("DOMContentLoaded", function () {
+      const ctx = document.getElementById('costChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['Optimism', 'Base', 'Polygon PoS', 'Arbitrum'],
+          datasets: [
+            {
+              label: 'Biaya 5k Invoice ($)',
+              data: [0.95, 5.85, 17.50, 19.60],
+              backgroundColor: '#3b82f6',
+              borderRadius: 6
+            },
+            {
+              label: 'Biaya 7k Invoice ($)',
+              data: [1.33, 8.19, 24.50, 27.44],
+              backgroundColor: '#10b981',
+              borderRadius: 6
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              labels: {
+                color: '#94a3b8',
+                font: { family: 'Outfit', size: 11 }
+              }
+            }
+          },
+          scales: {
+            y: {
+              grid: { color: '#1e293b' },
+              ticks: { color: '#94a3b8', font: { family: 'Outfit' } }
+            },
+            x: {
+              grid: { display: false },
+              ticks: { color: '#94a3b8', font: { family: 'Outfit' } }
+            }
+          }
+        }
+      });
+    });
+  </script>
+
+</body>
+
+</html>
