@@ -263,7 +263,9 @@
             <div>
               <h3 class="font-bold text-white text-base mb-3">💡 Insight Utama</h3>
               <p class="text-xs text-slate-400 leading-relaxed">
-                Jaringan Optimism L2 memangkas pengeluaran gas hingga 94.5% dibandingkan dengan Polygon PoS. Hal ini disebabkan efisiensi kompresi data L2-ke-L1 dan optimalisasi OP Stack Bedrock yang sangat matang dalam melakukan kalkulasi state-update.
+                Jaringan Optimism L2 memangkas pengeluaran gas hingga 94.5% dibandingkan dengan Polygon PoS. Hal ini
+                disebabkan efisiensi kompresi data L2-ke-L1 dan optimalisasi OP Stack Bedrock yang sangat matang dalam
+                melakukan kalkulasi state-update.
               </p>
             </div>
             <div class="border-t border-slate-800 pt-3 mt-3">
@@ -283,8 +285,8 @@
         <div class="flex justify-between items-end">
           <div>
             <span class="text-xs font-bold text-emerald-400 uppercase tracking-widest">TRANSACTION EVIDENCE</span>
-            <h2 class="text-2xl md:text-3xl font-extrabold text-white mt-1">Tx Fee Log Viewer</h2>
-            <p class="text-xs text-slate-500 mt-1">Menampilkan cuplikan data ril hasil eksekusi smart contract dari file
+            <h2 class="text-2xl md:text-3xl font-extrabold text-white mt-1">Tx Fee Log Explorer</h2>
+            <p class="text-xs text-slate-500 mt-1">Daftar transaksi ril hasil eksekusi smart contract dari file
               Transaction_Fee.txt</p>
           </div>
           <a href="./Transaction_Fee.txt" target="_blank"
@@ -294,41 +296,75 @@
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-          <div class="lg:col-span-4 space-y-2">
-            <button onclick="loadTxLogSnippet('Polygon')"
-              class="w-full p-3 bg-slate-800/60 hover:bg-slate-700/60 border border-slate-700 rounded-xl text-left text-xs font-bold flex items-center justify-between text-purple-400 transition-all">
-              <span class="flex items-center gap-2"><img src="./Polygon.svg" alt="Polygon" class="w-4 h-4"> Polygon Test
-                Log</span>
-              <span>→</span>
+          <!-- Kolom 1: Pilihan Jaringan -->
+          <div class="lg:col-span-3 flex flex-col gap-2.5">
+            <button id="btn-net-Polygon" onclick="selectNetwork('Polygon')"
+              class="net-btn w-full p-4 bg-slate-900 border border-slate-800 hover:bg-slate-800/80 hover:border-slate-700 rounded-2xl text-left text-xs font-bold flex flex-col items-center justify-center gap-2 text-purple-400 transition-all duration-200">
+              <img src="./Polygon.svg" alt="Polygon" class="w-8 h-8 object-contain">
+              <span>Polygon PoS</span>
             </button>
-            <button onclick="loadTxLogSnippet('Optimism')"
-              class="w-full p-3 bg-slate-800/60 hover:bg-slate-700/60 border border-slate-700 rounded-xl text-left text-xs font-bold flex items-center justify-between text-red-400 transition-all">
-              <span class="flex items-center gap-2"><img src="./Optimism.png" alt="Optimism" class="w-4 h-4"> Optimism
-                Test Log</span>
-              <span>→</span>
+            <button id="btn-net-Optimism" onclick="selectNetwork('Optimism')"
+              class="net-btn w-full p-4 bg-slate-900 border border-slate-800 hover:bg-slate-800/80 hover:border-slate-700 rounded-2xl text-left text-xs font-bold flex flex-col items-center justify-center gap-2 text-red-400 transition-all duration-200">
+              <img src="./Optimism.png" alt="Optimism" class="w-8 h-8 object-contain">
+              <span>Optimism</span>
             </button>
-            <button onclick="loadTxLogSnippet('Base')"
-              class="w-full p-3 bg-slate-800/60 hover:bg-slate-700/60 border border-slate-700 rounded-xl text-left text-xs font-bold flex items-center justify-between text-blue-400 transition-all">
-              <span class="flex items-center gap-2"><img src="./Base.png" alt="Base" class="w-4 h-4"> Base Test
-                Log</span>
-              <span>→</span>
+            <button id="btn-net-Base" onclick="selectNetwork('Base')"
+              class="net-btn w-full p-4 bg-slate-900 border border-slate-800 hover:bg-slate-800/80 hover:border-slate-700 rounded-2xl text-left text-xs font-bold flex flex-col items-center justify-center gap-2 text-blue-400 transition-all duration-200">
+              <img src="./Base.png" alt="Base" class="w-8 h-8 object-contain">
+              <span>Base</span>
             </button>
-            <button onclick="loadTxLogSnippet('Arbitrum')"
-              class="w-full p-3 bg-slate-800/60 hover:bg-slate-700/60 border border-slate-700 rounded-xl text-left text-xs font-bold flex items-center justify-between text-cyan-400 transition-all">
-              <span class="flex items-center gap-2"><img src="./Arbitrum.png" alt="Arbitrum" class="w-4 h-4"> Arbitrum
-                Test Log</span>
-              <span>→</span>
+            <button id="btn-net-Arbitrum" onclick="selectNetwork('Arbitrum')"
+              class="net-btn w-full p-4 bg-slate-900 border border-slate-800 hover:bg-slate-800/80 hover:border-slate-700 rounded-2xl text-left text-xs font-bold flex flex-col items-center justify-center gap-2 text-cyan-400 transition-all duration-200">
+              <img src="./Arbitrum.png" alt="Arbitrum" class="w-8 h-8 object-contain">
+              <span>Arbitrum</span>
             </button>
           </div>
-          <div class="lg:col-span-8 flex flex-col justify-between bg-slate-950 border border-slate-800 rounded-2xl p-4">
-            <div
-              class="h-64 overflow-y-auto font-mono text-[10px] text-slate-400 p-2 bg-slate-950 rounded border border-slate-900/50 leading-relaxed whitespace-pre"
-              id="tx-log-content">
-              Klik salah satu tombol log di sebelah kiri untuk memuat cuplikan data transaksi riil dari file.
+
+          <!-- Kolom 2: Tabel Transaksi -->
+          <div
+            class="lg:col-span-6 bg-slate-900/60 border border-slate-800 rounded-2xl p-4 flex flex-col justify-between min-h-[350px]">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse text-xs">
+                <thead>
+                  <tr class="border-b border-slate-800 text-[10px] text-slate-500 uppercase font-mono">
+                    <th class="pb-2 pl-2">UUID</th>
+                    <th class="pb-2">Tx Hash</th>
+                    <th class="pb-2 text-right">Gas Used</th>
+                    <th class="pb-2 text-right">Fee (USD)</th>
+                    <th class="pb-2 text-center">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody id="tx-table-body" class="divide-y divide-slate-800/40">
+                  <!-- Diisi oleh JavaScript -->
+                </tbody>
+              </table>
             </div>
-            <p class="text-[10px] text-slate-500 mt-2 italic">
-              Data ditarik secara dinamis dari file presentasi lokal / server.
-            </p>
+            <div
+              class="text-[10px] text-slate-500 mt-4 italic flex justify-between items-center border-t border-slate-800/40 pt-2.5">
+              <span>* Klik baris untuk detail transaksi lengkap</span>
+              <span id="datasource-badge" class="text-amber-400">Loading data...</span>
+            </div>
+          </div>
+
+          <!-- Kolom 3: Detail Transaksi -->
+          <div
+            class="lg:col-span-3 bg-slate-950 border border-slate-800 rounded-2xl p-4 flex flex-col justify-between min-h-[350px]">
+            <div class="space-y-4">
+              <div class="border-b border-slate-800 pb-2 flex justify-between items-center">
+                <h3 class="font-bold text-white text-xs font-mono">🔍 Detail Resi L2</h3>
+                <span id="detail-uuid"
+                  class="px-2 py-0.5 bg-slate-800 text-slate-300 text-[9px] font-bold rounded">N/A</span>
+              </div>
+              <div id="detail-content" class="space-y-2 text-xs">
+                <div class="text-slate-500 text-center py-12">Pilih transaksi untuk melihat detail blockchain.</div>
+              </div>
+            </div>
+            <div class="border-t border-slate-900 pt-2 mt-2">
+              <button onclick="toggleRawLogView()" id="btn-toggle-raw"
+                class="w-full py-1.5 bg-slate-900 hover:bg-slate-800 text-slate-400 rounded text-[10px] font-semibold border border-slate-800 transition-all hidden">
+                Tampilkan Log Mentah
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -340,84 +376,109 @@
         <div>
           <span class="text-xs font-bold text-amber-400 uppercase tracking-widest">KINERJA & UX</span>
           <h2 class="text-2xl md:text-3xl font-extrabold text-white mt-1">Kecepatan Konfirmasi & Finalitas Jaringan</h2>
-          <p class="text-sm text-slate-500 mt-1">Mengukur kecepatan respons sistem (UX) dan tingkat kekekalan data on-chain.</p>
+          <p class="text-sm text-slate-500 mt-1">Mengukur kecepatan respons sistem (UX) dan tingkat kekekalan data
+            on-chain.</p>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 space-y-4 flex flex-col justify-between">
             <div class="space-y-3">
-              <div class="flex flex-col items-center text-center gap-2 text-cyan-400 font-bold border-b border-slate-800/60 pb-3">
+              <div
+                class="flex flex-col items-center text-center gap-2 text-cyan-400 font-bold border-b border-slate-800/60 pb-3">
                 <img src="./Arbitrum.png" alt="Arbitrum" class="w-8 h-8 object-contain">
                 <span>Arbitrum</span>
               </div>
               <div class="space-y-1.5 text-xs">
-                <div class="flex justify-between border-b border-slate-800/60 pb-1.5"><span class="text-slate-500">Block Time</span><span class="font-mono font-bold text-white">~250ms</span></div>
-                <div class="flex justify-between border-b border-slate-800/60 pb-1.5"><span class="text-slate-500">Soft Finality</span><span class="font-mono text-emerald-400">~250ms</span></div>
-                <div class="flex justify-between"><span class="text-slate-500">L1 Settlement</span><span class="font-mono text-slate-400">~13 Menit</span></div>
+                <div class="flex justify-between border-b border-slate-800/60 pb-1.5"><span class="text-slate-500">Block
+                    Time</span><span class="font-mono font-bold text-white">~250ms</span></div>
+                <div class="flex justify-between border-b border-slate-800/60 pb-1.5"><span class="text-slate-500">Soft
+                    Finality</span><span class="font-mono text-emerald-400">~250ms</span></div>
+                <div class="flex justify-between"><span class="text-slate-500">L1 Settlement</span><span
+                    class="font-mono text-slate-400">~13 Menit</span></div>
               </div>
             </div>
-            <p class="text-[10px] text-slate-500 italic pt-2 leading-relaxed border-t border-slate-800/40">Tercepat dalam memberikan konfirmasi UI kepada user.</p>
+            <p class="text-[10px] text-slate-500 italic pt-2 leading-relaxed border-t border-slate-800/40">Tercepat
+              dalam memberikan konfirmasi UI kepada user.</p>
           </div>
 
           <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 space-y-4 flex flex-col justify-between">
             <div class="space-y-3">
-              <div class="flex flex-col items-center text-center gap-2 text-blue-400 font-bold border-b border-slate-800/60 pb-3">
+              <div
+                class="flex flex-col items-center text-center gap-2 text-blue-400 font-bold border-b border-slate-800/60 pb-3">
                 <img src="./Base.png" alt="Base" class="w-8 h-8 object-contain">
                 <span>Base</span>
               </div>
               <div class="space-y-1.5 text-xs">
-                <div class="flex justify-between border-b border-slate-800/60 pb-1.5"><span class="text-slate-500">Block Time</span><span class="font-mono font-bold text-white">~2 Detik</span></div>
-                <div class="flex justify-between border-b border-slate-800/60 pb-1.5"><span class="text-slate-500">Soft Finality</span><span class="font-mono text-emerald-400">~200ms*</span></div>
-                <div class="flex justify-between"><span class="text-slate-500">L1 Settlement</span><span class="font-mono text-slate-400">~13 Menit</span></div>
+                <div class="flex justify-between border-b border-slate-800/60 pb-1.5"><span class="text-slate-500">Block
+                    Time</span><span class="font-mono font-bold text-white">~2 Detik</span></div>
+                <div class="flex justify-between border-b border-slate-800/60 pb-1.5"><span class="text-slate-500">Soft
+                    Finality</span><span class="font-mono text-emerald-400">~200ms*</span></div>
+                <div class="flex justify-between"><span class="text-slate-500">L1 Settlement</span><span
+                    class="font-mono text-slate-400">~13 Menit</span></div>
               </div>
             </div>
-            <p class="text-[10px] text-slate-500 italic pt-2 leading-relaxed border-t border-slate-800/40">*Menggunakan OP Stack Flashblocks untuk pre-confirmations instan.</p>
+            <p class="text-[10px] text-slate-500 italic pt-2 leading-relaxed border-t border-slate-800/40">*Menggunakan
+              OP Stack Flashblocks untuk pre-confirmations instan.</p>
           </div>
 
           <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 space-y-4 flex flex-col justify-between">
             <div class="space-y-3">
-              <div class="flex flex-col items-center text-center gap-2 text-red-400 font-bold border-b border-slate-800/60 pb-3">
+              <div
+                class="flex flex-col items-center text-center gap-2 text-red-400 font-bold border-b border-slate-800/60 pb-3">
                 <img src="./Optimism.png" alt="Optimism" class="w-8 h-8 object-contain">
                 <span>Optimism</span>
               </div>
               <div class="space-y-1.5 text-xs">
-                <div class="flex justify-between border-b border-slate-800/60 pb-1.5"><span class="text-slate-500">Block Time</span><span class="font-mono font-bold text-white">~2 Detik</span></div>
-                <div class="flex justify-between border-b border-slate-800/60 pb-1.5"><span class="text-slate-500">Soft Finality</span><span class="font-mono text-slate-400">~2 Detik</span></div>
-                <div class="flex justify-between"><span class="text-slate-500">L1 Settlement</span><span class="font-mono text-slate-400">~16 Menit</span></div>
+                <div class="flex justify-between border-b border-slate-800/60 pb-1.5"><span class="text-slate-500">Block
+                    Time</span><span class="font-mono font-bold text-white">~2 Detik</span></div>
+                <div class="flex justify-between border-b border-slate-800/60 pb-1.5"><span class="text-slate-500">Soft
+                    Finality</span><span class="font-mono text-slate-400">~2 Detik</span></div>
+                <div class="flex justify-between"><span class="text-slate-500">L1 Settlement</span><span
+                    class="font-mono text-slate-400">~16 Menit</span></div>
               </div>
             </div>
-            <p class="text-[10px] text-slate-500 italic pt-2 leading-relaxed border-t border-slate-800/40">Menggunakan OP stack standar dengan performa stabil.</p>
+            <p class="text-[10px] text-slate-500 italic pt-2 leading-relaxed border-t border-slate-800/40">Menggunakan
+              OP stack standar dengan performa stabil.</p>
           </div>
 
           <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 space-y-4 flex flex-col justify-between">
             <div class="space-y-3">
-              <div class="flex flex-col items-center text-center gap-2 text-purple-400 font-bold border-b border-slate-800/60 pb-3">
+              <div
+                class="flex flex-col items-center text-center gap-2 text-purple-400 font-bold border-b border-slate-800/60 pb-3">
                 <img src="./Polygon.svg" alt="Polygon" class="w-8 h-8 object-contain">
                 <span>Polygon PoS</span>
               </div>
               <div class="space-y-1.5 text-xs">
-                <div class="flex justify-between border-b border-slate-800/60 pb-1.5"><span class="text-slate-500">Block Time</span><span class="font-mono font-bold text-white">~1.75 Detik</span></div>
-                <div class="flex justify-between border-b border-slate-800/60 pb-1.5"><span class="text-slate-500">Soft Finality</span><span class="font-mono text-slate-400">~2 Detik</span></div>
-                <div class="flex justify-between"><span class="text-slate-500">L1 Settlement</span><span class="font-mono text-emerald-400">~5 Menit</span></div>
+                <div class="flex justify-between border-b border-slate-800/60 pb-1.5"><span class="text-slate-500">Block
+                    Time</span><span class="font-mono font-bold text-white">~1.75 Detik</span></div>
+                <div class="flex justify-between border-b border-slate-800/60 pb-1.5"><span class="text-slate-500">Soft
+                    Finality</span><span class="font-mono text-slate-400">~2 Detik</span></div>
+                <div class="flex justify-between"><span class="text-slate-500">L1 Settlement</span><span
+                    class="font-mono text-emerald-400">~5 Menit</span></div>
               </div>
             </div>
-            <p class="text-[10px] text-slate-500 italic pt-2 leading-relaxed border-t border-slate-800/40">Checkpointing L1 tercepat namun rentan reorg jaringan lokal.</p>
+            <p class="text-[10px] text-slate-500 italic pt-2 leading-relaxed border-t border-slate-800/40">Checkpointing
+              L1 tercepat namun rentan reorg jaringan lokal.</p>
           </div>
         </div>
 
         <!-- Glosarium Terminologi Kecepatan -->
-        <div class="bg-slate-900/40 border border-slate-800 rounded-2xl p-5 grid grid-cols-1 md:grid-cols-3 gap-6 text-xs text-slate-400">
+        <div
+          class="bg-slate-900/40 border border-slate-800 rounded-2xl p-5 grid grid-cols-1 md:grid-cols-3 gap-6 text-xs text-slate-400">
           <div class="space-y-1">
             <h4 class="font-bold text-slate-200 flex items-center gap-1.5">⏱️ Block Time</h4>
-            <p class="leading-relaxed">Interval waktu pembuatan blok baru di blockchain. Semakin kecil nilainya, semakin cepat transaksi masuk antrean eksekusi pertama.</p>
+            <p class="leading-relaxed">Interval waktu pembuatan blok baru di blockchain. Semakin kecil nilainya, semakin
+              cepat transaksi masuk antrean eksekusi pertama.</p>
           </div>
           <div class="space-y-1 border-t md:border-t-0 md:border-l border-slate-800/80 pt-4 md:pt-0 md:pl-6">
             <h4 class="font-bold text-emerald-400 flex items-center gap-1.5">⚡ Soft Finality</h4>
-            <p class="leading-relaxed">Waktu respons di mana transaksi dikonfirmasi oleh Sequencer L2. Memberikan umpan balik instan ke antarmuka aplikasi Fintech (UX cepat).</p>
+            <p class="leading-relaxed">Waktu respons di mana transaksi dikonfirmasi oleh Sequencer L2. Memberikan umpan
+              balik instan ke antarmuka aplikasi Fintech (UX cepat).</p>
           </div>
           <div class="space-y-1 border-t md:border-t-0 md:border-l border-slate-800/80 pt-4 md:pt-0 md:pl-6">
             <h4 class="font-bold text-blue-400 flex items-center gap-1.5">🔐 L1 Settlement (Hard Finality)</h4>
-            <p class="leading-relaxed">Waktu yang dibutuhkan untuk mengunci dan merelasikan data transaksi dari L2 ke Ethereum Mainnet (L1) agar permanen dan tidak bisa diubah.</p>
+            <p class="leading-relaxed">Waktu yang dibutuhkan untuk mengunci dan merelasikan data transaksi dari L2 ke
+              Ethereum Mainnet (L1) agar permanen dan tidak bisa diubah.</p>
           </div>
         </div>
       </div>
@@ -429,11 +490,13 @@
         <div>
           <span class="text-xs font-bold text-emerald-400 uppercase tracking-widest">BUDGETING & FINANCIALS</span>
           <h2 class="text-2xl md:text-3xl font-extrabold text-white mt-1">Biaya Bulanan & Risiko Volatilitas Koin</h2>
-          <p class="text-sm text-slate-500 mt-1">Analisis anggaran operasional berdasarkan konsumsi 5.000 - 7.000 transaksi/bulan.</p>
+          <p class="text-sm text-slate-500 mt-1">Analisis anggaran operasional berdasarkan konsumsi 5.000 - 7.000
+            transaksi/bulan.</p>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-          <div class="lg:col-span-6 bg-slate-900/60 border border-slate-800 rounded-2xl p-6 flex flex-col justify-between">
+          <div
+            class="lg:col-span-6 bg-slate-900/60 border border-slate-800 rounded-2xl p-6 flex flex-col justify-between">
             <h3 class="font-bold text-white text-base mb-4 font-sans">Proyeksi Gas Fee Bulanan</h3>
             <div class="relative h-64 w-full">
               <canvas id="costChart"></canvas>
@@ -444,20 +507,28 @@
             <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 space-y-3 flex-1">
               <div class="flex justify-between items-center border-b border-slate-800 pb-2">
                 <span class="font-bold text-slate-200">ETH (Ethereum Gas Token)</span>
-                <span class="px-2 py-0.5 bg-yellow-500/20 text-yellow-400 text-[10px] font-semibold border border-yellow-500/30 rounded-full">Likuiditas Tinggi</span>
+                <span
+                  class="px-2 py-0.5 bg-yellow-500/20 text-yellow-400 text-[10px] font-semibold border border-yellow-500/30 rounded-full">Likuiditas
+                  Tinggi</span>
               </div>
               <p class="text-xs text-slate-400 leading-relaxed">
-                Digunakan oleh jaringan Optimism, Base, dan Arbitrum. Volatilitas rata-rata bulanan berada pada tingkat &plusmn;15% (2025-2026). Perubahan harga yang moderat ini memberikan kestabilan anggaran operasional bagi perusahaan.
+                Digunakan oleh jaringan Optimism, Base, dan Arbitrum. Volatilitas rata-rata bulanan berada pada tingkat
+                &plusmn;15% (2025-2026). Perubahan harga yang moderat ini memberikan kestabilan anggaran operasional
+                bagi perusahaan.
               </p>
             </div>
 
             <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 space-y-3 flex-1">
               <div class="flex justify-between items-center border-b border-slate-800 pb-2">
                 <span class="font-bold text-slate-200">POL (Polygon Gas Token)</span>
-                <span class="px-2 py-0.5 bg-red-500/20 text-red-400 text-[10px] font-semibold border border-red-500/30 rounded-full">Volatilitas Tinggi</span>
+                <span
+                  class="px-2 py-0.5 bg-red-500/20 text-red-400 text-[10px] font-semibold border border-red-500/30 rounded-full">Volatilitas
+                  Tinggi</span>
               </div>
               <p class="text-xs text-slate-400 leading-relaxed">
-                Digunakan oleh jaringan Polygon PoS. Volatilitas koin POL tercatat mencapai &plusmn;35% (2025-2026). Fluktuasi ini dapat mempersulit estimasi anggaran biaya gas bulanan serta meningkatkan resiko operasional jika terjadi lonjakan mendadak.
+                Digunakan oleh jaringan Polygon PoS. Volatilitas koin POL tercatat mencapai &plusmn;35% (2025-2026).
+                Fluktuasi ini dapat mempersulit estimasi anggaran biaya gas bulanan serta meningkatkan resiko
+                operasional jika terjadi lonjakan mendadak.
               </p>
             </div>
           </div>
@@ -470,7 +541,8 @@
       <div class="space-y-6">
         <div>
           <span class="text-xs font-bold text-red-400 uppercase tracking-widest">KEAMANAN & RELIABILITAS</span>
-          <h2 class="text-2xl md:text-3xl font-extrabold text-white mt-1">Stabilitas Jaringan & Riwayat Downtime (2024-2026)</h2>
+          <h2 class="text-2xl md:text-3xl font-extrabold text-white mt-1">Stabilitas Jaringan & Riwayat Downtime
+            (2024-2026)</h2>
           <p class="text-sm text-slate-500 mt-1">Menilai uptime sequencer dan integritas status on-chain.</p>
         </div>
 
@@ -484,7 +556,8 @@
                 Uptime</span>
             </div>
             <p class="text-xs text-slate-400 leading-relaxed">
-              Tercatat <strong>0 menit downtime sequencer</strong> yang tidak direncanakan selama periode 2025-2026. Sangat direkomendasikan untuk stabilitas tinggi dApp fintech korporat.
+              Tercatat <strong>0 menit downtime sequencer</strong> yang tidak direncanakan selama periode 2025-2026.
+              Sangat direkomendasikan untuk stabilitas tinggi dApp fintech korporat.
             </p>
           </div>
 
@@ -497,7 +570,8 @@
                 Uptime</span>
             </div>
             <p class="text-xs text-slate-400 leading-relaxed">
-              Mengalami gangguan sequencer minor ("unsafe head stall") di awal 2024, namun setelah perbaikan total di tahun 2025-2026, jaringan beroperasi dengan keandalan penuh.
+              Mengalami gangguan sequencer minor ("unsafe head stall") di awal 2024, namun setelah perbaikan total di
+              tahun 2025-2026, jaringan beroperasi dengan keandalan penuh.
             </p>
           </div>
 
@@ -510,7 +584,8 @@
                 Uptime</span>
             </div>
             <p class="text-xs text-slate-400 leading-relaxed">
-              Terjadi sequencer crash total selama <strong>29 menit</strong> pada Agustus 2025. Dilanjutkan dengan kegagalan update state L1 (TEE Enclave Bug) selama <strong>30 jam</strong> pada Mei 2026.
+              Terjadi sequencer crash total selama <strong>29 menit</strong> pada Agustus 2025. Dilanjutkan dengan
+              kegagalan update state L1 (TEE Enclave Bug) selama <strong>30 jam</strong> pada Mei 2026.
             </p>
           </div>
 
@@ -523,7 +598,8 @@
                 Uptime</span>
             </div>
             <p class="text-xs text-slate-400 leading-relaxed">
-              Validator consensus layer (Heimdall) terhenti selama <strong>1 jam</strong> akibat validator bug pada Juli 2025. Selain itu, kinerja server RPC publik gratisan sering mengalami degradasi.
+              Validator consensus layer (Heimdall) terhenti selama <strong>1 jam</strong> akibat validator bug pada Juli
+              2025. Selain itu, kinerja server RPC publik gratisan sering mengalami degradasi.
             </p>
           </div>
         </div>
@@ -536,7 +612,8 @@
         <div>
           <span class="text-xs font-bold text-blue-400 uppercase tracking-widest">ANALISIS INFRASTRUKTUR</span>
           <h2 class="text-2xl md:text-3xl font-extrabold text-white mt-1">Biaya & Limitasi RPC Provider</h2>
-          <p class="text-sm text-slate-500 mt-1">Menghitung total kuota API bulanan (~51.000 request) terhadap kuota gratis provider.</p>
+          <p class="text-sm text-slate-500 mt-1">Menghitung total kuota API bulanan (~51.000 request) terhadap kuota
+            gratis provider.</p>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -545,11 +622,13 @@
               <div class="text-indigo-400 font-bold text-base border-b border-slate-800 pb-2">Alchemy</div>
               <p class="text-[10px] text-slate-500 uppercase font-mono">Compute Units (CU)</p>
               <p class="text-xs text-slate-400 leading-relaxed">
-                Menawarkan <strong>30 Juta CU/bulan</strong> secara gratis. Konsumsi estimasi bulanan kita sangat kecil yaitu sekitar <strong>1,37 Juta CU/bulan</strong> (Rata-rata 27 CU per call).
+                Menawarkan <strong>30 Juta CU/bulan</strong> secara gratis. Konsumsi estimasi bulanan kita sangat kecil
+                yaitu sekitar <strong>1,37 Juta CU/bulan</strong> (Rata-rata 27 CU per call).
               </p>
             </div>
             <span
-              class="px-2 py-1 bg-emerald-500/20 text-emerald-400 text-center text-xs font-bold rounded-lg border border-emerald-500/30">Aman & Gratis</span>
+              class="px-2 py-1 bg-emerald-500/20 text-emerald-400 text-center text-xs font-bold rounded-lg border border-emerald-500/30">Aman
+              & Gratis</span>
           </div>
 
           <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 space-y-4 flex flex-col justify-between">
@@ -557,11 +636,13 @@
               <div class="text-blue-400 font-bold text-base border-b border-slate-800 pb-2">Infura</div>
               <p class="text-[10px] text-slate-500 uppercase font-mono">Daily Credits</p>
               <p class="text-xs text-slate-400 leading-relaxed">
-                Menawarkan kuota melimpah hingga <strong>3 Juta request/hari</strong> gratis. Total beban operasional harian kita hanya berkisar ~1.700 request/hari.
+                Menawarkan kuota melimpah hingga <strong>3 Juta request/hari</strong> gratis. Total beban operasional
+                harian kita hanya berkisar ~1.700 request/hari.
               </p>
             </div>
             <span
-              class="px-2 py-1 bg-emerald-500/20 text-emerald-400 text-center text-xs font-bold rounded-lg border border-emerald-500/30">Aman & Gratis</span>
+              class="px-2 py-1 bg-emerald-500/20 text-emerald-400 text-center text-xs font-bold rounded-lg border border-emerald-500/30">Aman
+              & Gratis</span>
           </div>
 
           <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 space-y-4 flex flex-col justify-between">
@@ -569,11 +650,13 @@
               <div class="text-emerald-400 font-bold text-base border-b border-slate-800 pb-2">Chainstack</div>
               <p class="text-[10px] text-slate-500 uppercase font-mono">Request Units (RU)</p>
               <p class="text-xs text-slate-400 leading-relaxed">
-                Menawarkan limit <strong>3 Juta RU/bulan</strong> gratis. Konsumsi flat rate operasional kita sangat aman hanya sebesar <strong>51.000 RU/bulan</strong> (1 call = 1 RU).
+                Menawarkan limit <strong>3 Juta RU/bulan</strong> gratis. Konsumsi flat rate operasional kita sangat
+                aman hanya sebesar <strong>51.000 RU/bulan</strong> (1 call = 1 RU).
               </p>
             </div>
             <span
-              class="px-2 py-1 bg-emerald-500/20 text-emerald-400 text-center text-xs font-bold rounded-lg border border-emerald-500/30">Aman & Gratis</span>
+              class="px-2 py-1 bg-emerald-500/20 text-emerald-400 text-center text-xs font-bold rounded-lg border border-emerald-500/30">Aman
+              & Gratis</span>
           </div>
 
           <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 space-y-4 flex flex-col justify-between">
@@ -581,11 +664,13 @@
               <div class="text-cyan-400 font-bold text-base border-b border-slate-800 pb-2">QuickNode</div>
               <p class="text-[10px] text-slate-500 uppercase font-mono">API Credits</p>
               <p class="text-xs text-slate-400 leading-relaxed">
-                Menawarkan <strong>10 Juta API Credits/bulan</strong> gratis. Estimasi konsumsi dApp operasional kita hanya sekitar <strong>1,5 Juta Credits/bulan</strong>.
+                Menawarkan <strong>10 Juta API Credits/bulan</strong> gratis. Estimasi konsumsi dApp operasional kita
+                hanya sekitar <strong>1,5 Juta Credits/bulan</strong>.
               </p>
             </div>
             <span
-              class="px-2 py-1 bg-emerald-500/20 text-emerald-400 text-center text-xs font-bold rounded-lg border border-emerald-500/30">Aman & Gratis</span>
+              class="px-2 py-1 bg-emerald-500/20 text-emerald-400 text-center text-xs font-bold rounded-lg border border-emerald-500/30">Aman
+              & Gratis</span>
           </div>
         </div>
       </div>
@@ -603,16 +688,20 @@
             Optimism Mainnet Sebagai Pilihan Utama Jaringan
           </h2>
           <p class="text-slate-400 leading-relaxed text-sm">
-            Berdasarkan data uji coba riil, jaringan Optimism menawarkan rasio biaya operasional bulanan terendah (~$1.33) dengan keandalan tinggi (99.95%). Volatilitas token gas ETH juga jauh lebih aman diproyeksikan daripada token POL (Polygon).
+            Berdasarkan data uji coba riil, jaringan Optimism menawarkan rasio biaya operasional bulanan terendah
+            (~$1.33) dengan keandalan tinggi (99.95%). Volatilitas token gas ETH juga jauh lebih aman diproyeksikan
+            daripada token POL (Polygon).
           </p>
           <div class="border-t border-slate-800 pt-4 space-y-2 text-xs">
             <div class="flex items-center gap-2"><span class="text-blue-500 font-bold">1.</span> <span
-                class="text-slate-300">Gunakan <strong>Infura</strong> sebagai RPC primer karena performa verifikasi tercepat.</span></div>
+                class="text-slate-300">Gunakan <strong>Infura</strong> sebagai RPC primer karena performa verifikasi
+                tercepat.</span></div>
             <div class="flex items-center gap-2"><span class="text-blue-500 font-bold">2.</span> <span
                 class="text-slate-300">Siapkan <strong>Alchemy</strong> sebagai fallback RPC otomatis di backend.</span>
             </div>
             <div class="flex items-center gap-2"><span class="text-blue-500 font-bold">3.</span> <span
-                class="text-slate-300">Lakukan <em>Hedging</em> gas token ETH senilai anggaran operasional 6 bulan.</span></div>
+                class="text-slate-300">Lakukan <em>Hedging</em> gas token ETH senilai anggaran operasional 6
+                bulan.</span></div>
           </div>
         </div>
 
@@ -621,12 +710,11 @@
           <div class="text-4xl">🚀</div>
           <h3 class="text-xl font-bold text-white">Siap Melakukan Integrasi?</h3>
           <p class="text-xs text-slate-300 leading-relaxed">
-            Anda dapat langsung meluncurkan smart contract verifikator di platform dashboard Fintech1000s pada jaringan
-            terpilih.
+            Anda dapat langsung melakukan simulasi interaksi smart contract verifikator secara *live* pada platform simulasi terintegrasi.
           </p>
-          <a href="../index.html"
+          <a href="https://blockchain.hanggaa.xyz/" target="_blank"
             class="inline-block w-full py-3 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white text-xs font-bold rounded-xl transition-all shadow-lg shadow-blue-600/30 font-semibold">
-            Kembali ke Aplikasi Utama ↗
+            Mulai Simulasi Interaktif ↗
           </a>
         </div>
       </div>
@@ -682,62 +770,571 @@
       if (e.key === 'ArrowLeft') prevSlide();
     });
 
-    // Menarik Data Log secara Asinkronus dari file lokal Transaction_Fee.txt
-    let cachedLogText = "";
+    // Basis data fallback jika CORS membatasi pembacaan file://
+    const fallbackData = {
+      Polygon: [
+        {
+          uuid: "BT/202604/0001",
+          hash: "0x307767929652a87bd23650cf868f0a0234217421bab3b34233003095cef79d59",
+          status: "Success",
+          block: "88074000",
+          gasUsed: "152,461",
+          feeNative: "0.045910940146716242 POL",
+          feeUsd: "$0.003656",
+          rawLog: "Polygon Transaction Action\nCall Store Hash\nFrom: 0xbf26809D7dA71c7b980FD26330e6293A82CE4EB9\nTo: 0x6bcb9E30E23E4e04bBf75249d2893EC6fFea7A3a\nGas Limit & Usage: 153,649 | 152,461\nFee: 0.045910940146716242 POL ($0.003656)\nGas Price: 301.132356122 Gwei\nBase: 248.820158227 Gwei\n🔥 Burnt: 0.037935370143446647 POL\nUUID: BT/202604/0001\nHash: 0x50078297303e2e24c573c0a3d3488a96c612107e0ae64654b547777721fc87ef"
+        },
+        {
+          uuid: "BT/202604/0002",
+          hash: "0xa3604246264e3c62f6955a9e88251ea959df3b3d6f20023743552ad027fc9fcb",
+          status: "Success",
+          block: "88074015",
+          gasUsed: "134,521",
+          feeNative: "0.041926263643367782 POL",
+          feeUsd: "$0.003339",
+          rawLog: "Polygon Transaction Action\nCall Store Hash\nFrom: 0xbf26809D7dA71c7b980FD26330e6293A82CE4EB9\nTo: 0x6bcb9E30E23E4e04bBf75249d2893EC6fFea7A3a\nGas Limit & Usage: 135,638 | 134,521\nFee: 0.041926263643367782 POL ($0.003339)\nGas Price: 311.670769942 Gwei\nBase: 250.077760572 Gwei\n🔥 Burnt: 0.033640710429906012 POL\nUUID: BT/202604/0002\nHash: 0x984fd86a9a8c220a163f9f9a622acd5329f89bdc2e1cc192947c96cd495aef6c"
+        },
+        {
+          uuid: "BT/202604/0003",
+          hash: "0x6b7186ee521e27652bb79fddeb4830fba8e13ae2fe758904464370871b066a50",
+          status: "Success",
+          block: "88074027",
+          gasUsed: "134,521",
+          feeNative: "0.04404593517047572 POL",
+          feeUsd: "$0.003508",
+          rawLog: "Polygon Transaction Action\nCall Store Hash\nFrom: 0xbf26809D7dA71c7b980FD26330e6293A82CE4EB9\nTo: 0x6bcb9E30E23E4e04bBf75249d2893EC6fFea7A3a\nGas Limit & Usage: 135,638 | 134,521\nFee: 0.04404593517047572 POL ($0.003508)\nGas Price: 327.42794932 Gwei\nBase: 252.947227032 Gwei\n🔥 Burnt: 0.034026713927571672 POL\nUUID: BT/202604/0003\nHash: 0xf18b50250c78c5448f32207b570b5b30a2eed3e4b425b7dbb1df85b2145d9a34"
+        },
+        {
+          uuid: "BT/202604/0004",
+          hash: "0xdaa6a085ac1eb25c3746298af28eb930c9902100cb9fada28543300c0f38f225",
+          status: "Success",
+          block: "88074042",
+          gasUsed: "134,521",
+          feeNative: "0.04513383521905443 POL",
+          feeUsd: "$0.003594",
+          rawLog: "Polygon Transaction Action\nCall Store Hash\nFrom: 0xbf26809D7dA71c7b980FD26330e6293A82CE4EB9\nTo: 0x6bcb9E30E23E4e04bBf75249d2893EC6fFea7A3a\nGas Limit & Usage: 135,638 | 134,521\nFee: 0.04513383521905443 POL ($0.003594)\nGas Price: 335.51516283 Gwei\nBase: 250.070334021 Gwei\n🔥 Burnt: 0.033639711402838941 POL\nUUID: BT/202604/0004\nHash: 0x4785859f87a051a1c5ba555156bc33a326d634f63934796d3f88dbb63d0ef43a"
+        },
+        {
+          uuid: "BT/202604/0005",
+          hash: "0x9891b75b28ed10747b8350377195a9c5c6f481c8fc9103944dd27de08b2934a8",
+          status: "Success",
+          block: "88074050",
+          gasUsed: "134,521",
+          feeNative: "0.042186470047959798 POL",
+          feeUsd: "$0.003359",
+          rawLog: "Polygon Transaction Action\nCall Store Hash\nFrom: 0xbf26809D7dA71c7b980FD26330e6293A82CE4EB9\nTo: 0x6bcb9E30E23E4e04bBf75249d2893EC6fFea7A3a\nGas Limit & Usage: 135,638 | 134,521\nFee: 0.042186470047959798 POL ($0.003359)\nGas Price: 313.605088038 Gwei\nBase: 253.044776828 Gwei\n🔥 Burnt: 0.034039836423679388 POL\nUUID: BT/202604/0005\nHash: 0xc0d06cd2e40838364618b85d6a5e6891f64c94cfbb05983fd1f1b0eec02d1b8a"
+        },
+        {
+          uuid: "BT/202604/0006",
+          hash: "0xa6ec0311f53df028574dee7b080cfa05e0de5ab61f31306fa10f3f7e5c83cf18",
+          status: "Success",
+          block: "88074069",
+          gasUsed: "134,521",
+          feeNative: "0.04462446000481733 POL",
+          feeUsd: "$0.003556",
+          rawLog: "Polygon Transaction Action\nCall Store Hash\nFrom: 0xbf26809D7dA71c7b980FD26330e6293A82CE4EB9\nTo: 0x6bcb9E30E23E4e04bBf75249d2893EC6fFea7A3a\nGas Limit & Usage: 135,638 | 134,521\nFee: 0.04462446000481733 POL ($0.003556)\nGas Price: 331.72857773 Gwei\nBase: 251.490052605 Gwei\n🔥 Burnt: 0.033830693366477205 POL\nUUID: BT/202604/0006\nHash: 0xfaac4a2517419ff2b813b438292afacfd015f11137f98048492d1cf06d4cfff2"
+        }
+      ],
+      Optimism: [
+        {
+          uuid: "BT/202604/0001",
+          hash: "0x4867761870dec234b35455df7a3c49da08ca4dfb2c8c17cc79470ac031fbc6b2",
+          status: "Success",
+          block: "152609415",
+          gasUsed: "138,181",
+          feeNative: "0.000000139191242414 ETH",
+          feeUsd: "$0.000225",
+          rawLog: "Optimism Transaction Action\nCall Store Hash\nFrom: 0xbf26809D7dA71c7b980FD26330e6293A82CE4EB9\nTo: 0x1E531360c8CD822c007c9651d9d7Bb3B487e2358\nGas Limit & Usage: 139,312 | 138,181\nFee: 0.000000139191242414 ETH ($0.000225)\nGas Price: 0.001000324 Gwei\nL2 Fees Paid: 0.000000138225770644 ETH\nL1 Fees Paid: 0.00000000096547177 ETH\nUUID: BT/202604/0001\nHash: 0x43144f4cca5441eecef11515d76ee6a01ff71f245d7321410283e5b6467ddc04"
+        },
+        {
+          uuid: "BT/202604/0002",
+          hash: "0x1dd41d06ecebd3b35e307cc0be0ff80f1c8ab7e726eba31e6e22bffea19aa406",
+          status: "Success",
+          block: "152609422",
+          gasUsed: "121,081",
+          feeNative: "0.000000122100379565 ETH",
+          feeUsd: "$0.000197",
+          rawLog: "Optimism Transaction Action\nCall Store Hash\nFrom: 0xbf26809D7dA71c7b980FD26330e6293A82CE4EB9\nTo: 0x1E531360c8CD822c007c9651d9d7Bb3B487e2358\nGas Limit & Usage: 122,144 | 121,081\nFee: 0.000000122100379565 ETH ($0.000197)\nGas Price: 0.001000324 Gwei\nL2 Fees Paid: 0.000000121120230244 ETH\nL1 Fees Paid: 0.000000000980149321 ETH\nUUID: BT/202604/0002\nHash: 0x52c91e6f191c8605494804fa11bd7b62d96b89933b4989c644a5379e679eb485"
+        },
+        {
+          uuid: "BT/202604/0003",
+          hash: "0xd30030148fd1815a035eb83febd2de4034fa48ef9b7adeac9453bc4c5797c5ad",
+          status: "Success",
+          block: "152609435",
+          gasUsed: "121,081",
+          feeNative: "0.000000122098296174 ETH",
+          feeUsd: "$0.000197",
+          rawLog: "Optimism Transaction Action\nCall Store Hash\nFrom: 0xbf26809D7dA71c7b980FD26330e6293A82CE4EB9\nTo: 0x1E531360c8CD822c007c9651d9d7Bb3B487e2358\nGas Limit & Usage: 122,144 | 121,081\nFee: 0.000000122098296174 ETH ($0.000197)\nGas Price: 0.001000324 Gwei\nL2 Fees Paid: 0.000000121120230244 ETH\nL1 Fees Paid: 0.00000000097806593 ETH\nUUID: BT/202604/0003\nHash: 0xd6fe3a51fd67ebae434c8c18b18aa882cc62dfed95d35af4bcb132badbc0ae20"
+        },
+        {
+          uuid: "BT/202604/0004",
+          hash: "0xb4989ea7f7c823cb799c0061adf7fd9b9cac52571714ebad4a9cbdfba7f769dd",
+          status: "Success",
+          block: "152609443",
+          gasUsed: "121,081",
+          feeNative: "0.000000122071621502 ETH",
+          feeUsd: "$0.000197",
+          rawLog: "Optimism Transaction Action\nCall Store Hash\nFrom: 0xbf26809D7dA71c7b980FD26330e6293A82CE4EB9\nTo: 0x1E531360c8CD822c007c9651d9d7Bb3B487e2358\nGas Limit & Usage: 122,144 | 121,081\nFee: 0.000000122071621502 ETH ($0.000197)\nGas Price: 0.001000324 Gwei\nL2 Fees Paid: 0.000000121120230244 ETH\nL1 Fees Paid: 0.000000000951391258 ETH\nUUID: BT/202604/0004\nHash: 0xb7f83dd26dc378c3d8fe78d7f9c7e099ae4dfe9f2cbc77677c65be84767d474f"
+        },
+        {
+          uuid: "BT/202604/0005",
+          hash: "0xf0ba5ad6684cd78b7def87020f805e55093aa0b0b239624afbb5701d0d6d382e",
+          status: "Success",
+          block: "152609452",
+          gasUsed: "121,081",
+          feeNative: "0.000000122076468584 ETH",
+          feeUsd: "$0.000197",
+          rawLog: "Optimism Transaction Action\nCall Store Hash\nFrom: 0xbf26809D7dA71c7b980FD26330e6293A82CE4EB9\nTo: 0x1E531360c8CD822c007c9651d9d7Bb3B487e2358\nGas Limit & Usage: 122,144 | 121,081\nFee: 0.000000122076468584 ETH ($0.000197)\nGas Price: 0.001000324 Gwei\nL2 Fees Paid: 0.000000121120230244 ETH\nL1 Fees Paid: 0.00000000095623834 ETH\nUUID: BT/202604/0005\nHash: 0x372d1bc27cc65ae5581178f09e23906f629787bf141a7ff4a32c56ef3ad4c52b"
+        },
+        {
+          uuid: "BT/202604/0006",
+          hash: "0xc0d9a0c2ef300b57c97aa038186192b01027fe0f2fbf69716219fcfc702714c5",
+          status: "Success",
+          block: "152609459",
+          gasUsed: "121,081",
+          feeNative: "0.000000122042570843 ETH",
+          feeUsd: "$0.000197",
+          rawLog: "Optimism Transaction Action\nCall Store Hash\nFrom: 0xbf26809D7dA71c7b980FD26330e6293A82CE4EB9\nTo: 0x1E531360c8CD822c007c9651d9d7Bb3B487e2358\nGas Limit & Usage: 122,144 | 121,081\nFee: 0.000000122042570843 ETH ($0.000197)\nGas Price: 0.001000324 Gwei\nL2 Fees Paid: 0.000000121120230244 ETH\nL1 Fees Paid: 0.000000000922340599 ETH\nUUID: BT/202604/0006\nHash: 0x996512dac609810b251ff6bb71175490aaaaf06c053adfc14716a63e56e8ee7e"
+        }
+      ],
+      Base: [
+        {
+          uuid: "BT/202604/0001",
+          hash: "0x38786dad0f8b25215e98596bd3fe36ea2cffbc6e7bb89d3356124b55e8fb98ba",
+          status: "Success",
+          block: "47015378",
+          gasUsed: "138,181",
+          feeNative: "0.000000830446957742 ETH",
+          feeUsd: "$0.001337",
+          rawLog: "Base Transaction Action\nCall Store Hash\nFrom: 0xbf26809D7dA71c7b980FD26330e6293A82CE4EB9\nTo: 0xd8c700802f4C1CC0efF097D308F25F35199e8931\nGas Limit & Usage: 139,312 | 138,181\nFee: 0.000000830446957742 ETH ($0.001337)\nGas Price: 0.006 Gwei\nL2 Fees Paid: 0.000000829086 ETH\nL1 Fees Paid: 0.000000001360957742 ETH\nUUID: BT/202604/0001\nHash: 0x38786dad0f8b25215e98596bd3fe36ea2cffbc6e7bb89d3356124b55e8fb98ba"
+        },
+        {
+          uuid: "BT/202604/0002",
+          hash: "0xa0051d61948d52eff873153ec1d7b667df6309ad208cabcd3de7753eb6db9602",
+          status: "Success",
+          block: "47015402",
+          gasUsed: "121,081",
+          feeNative: "0.000000727721725452 ETH",
+          feeUsd: "$0.001173",
+          rawLog: "Base Transaction Action\nCall Store Hash\nFrom: 0xbf26809D7dA71c7b980FD26330e6293A82CE4EB9\nTo: 0xd8c700802f4C1CC0efF097D308F25F35199e8931\nGas Limit & Usage: 122,144 | 121,081\nFee: 0.000000727721725452 ETH ($0.001173)\nGas Price: 0.006 Gwei\nL2 Fees Paid: 0.000000726486 ETH\nL1 Fees Paid: 0.000000001235725452 ETH\nUUID: BT/202604/0002\nHash: 0xa0051d61948d52eff873153ec1d7b667df6309ad208cabcd3de7753eb6db9602"
+        },
+        {
+          uuid: "BT/202604/0003",
+          hash: "0x9e1e3c5246a60f0f7acfbbad6036e24d06c11279a1a77414e8e3f02283a73c3a",
+          status: "Success",
+          block: "47015419",
+          gasUsed: "121,081",
+          feeNative: "0.000000727721151666 ETH",
+          feeUsd: "$0.001173",
+          rawLog: "Base Transaction Action\nCall Store Hash\nFrom: 0xbf26809D7dA71c7b980FD26330e6293A82CE4EB9\nTo: 0xd8c700802f4C1CC0efF097D308F25F35199e8931\nGas Limit & Usage: 122,144 | 121,081\nFee: 0.000000727721151666 ETH ($0.001173)\nGas Price: 0.006 Gwei\nL2 Fees Paid: 0.000000726486 ETH\nL1 Fees Paid: 0.000000001235151666 ETH\nUUID: BT/202604/0003\nHash: 0x9e1e3c5246a60f0f7acfbbad6036e24d06c11279a1a77414e8e3f02283a73c3a"
+        },
+        {
+          uuid: "BT/202604/0004",
+          hash: "0x96b805661d00199e4c84332bdf4f07af06e5b9dac5ddcd83095b4d00a4516002",
+          status: "Success",
+          block: "47015427",
+          gasUsed: "121,081",
+          feeNative: "0.000000727664134548 ETH",
+          feeUsd: "$0.001172",
+          rawLog: "Base Transaction Action\nCall Store Hash\nFrom: 0xbf26809D7dA71c7b980FD26330e6293A82CE4EB9\nTo: 0xd8c700802f4C1CC0efF097D308F25F35199e8931\nGas Limit & Usage: 122,144 | 121,081\nFee: 0.000000727664134548 ETH ($0.001172)\nGas Price: 0.006 Gwei\nL2 Fees Paid: 0.000000726486 ETH\nL1 Fees Paid: 0.000000001178134548 ETH\nUUID: BT/202604/0004\nHash: 0x96b805661d00199e4c84332bdf4f07af06e5b9dac5ddcd83095b4d00a4516002"
+        },
+        {
+          uuid: "BT/202604/0005",
+          hash: "0xe1a634c60d7bd62e5a5d026bc9da1b37ea346e59f94ea569cd5854b80bf001e5",
+          status: "Success",
+          block: "47015433",
+          gasUsed: "121,081",
+          feeNative: "0.000000727629014243 ETH",
+          feeUsd: "$0.001172",
+          rawLog: "Base Transaction Action\nCall Store Hash\nFrom: 0xbf26809D7dA71c7b980FD26330e6293A82CE4EB9\nTo: 0xd8c700802f4C1CC0efF097D308F25F35199e8931\nGas Limit & Usage: 122,144 | 121,081\nFee: 0.000000727629014243 ETH ($0.001172)\nGas Price: 0.006 Gwei\nL2 Fees Paid: 0.000000726486 ETH\nL1 Fees Paid: 0.000000001143014243 ETH\nUUID: BT/202604/0005\nHash: 0xe1a634c60d7bd62e5a5d026bc9da1b37ea346e59f94ea569cd5854b80bf001e5"
+        },
+        {
+          uuid: "BT/202604/0006",
+          hash: "0xb4657d26acd5ae3ee516eb445586eba53fb16d36a2518c7eddedf1f12984bc19",
+          status: "Success",
+          block: "47015440",
+          gasUsed: "121,081",
+          feeNative: "0.000000727666561280 ETH",
+          feeUsd: "$0.001172",
+          rawLog: "Base Transaction Action\nCall Store Hash\nFrom: 0xbf26809D7dA71c7b980FD26330e6293A82CE4EB9\nTo: 0xd8c700802f4C1CC0efF097D308F25F35199e8931\nGas Limit & Usage: 122,144 | 121,081\nFee: 0.00000072766656128 ETH ($0.001172)\nGas Price: 0.006 Gwei\nL2 Fees Paid: 0.000000726486 ETH\nL1 Fees Paid: 0.00000000118056128 ETH\nUUID: BT/202604/0006\nHash: 0xb4657d26acd5ae3ee516eb445586eba53fb16d36a2518c7eddedf1f12984bc19"
+        }
+      ],
+      Arbitrum: [
+        {
+          uuid: "BT/202604/0001",
+          hash: "0xd8f25f57d78273086615e9ffefc664e48c1894ebd6e3d77b6def5aaf6ef3ecf4",
+          status: "Success",
+          block: "470940184",
+          gasUsed: "138,742",
+          feeNative: "0.00000277484 ETH",
+          feeUsd: "$0.004476",
+          rawLog: "Arbitrum Transaction Action\nCall Store Hash\nFrom: 0xbf26809D7dA71c7b980FD26330e6293A82CE4EB9\nTo: 0x2E41236027a12206598B02b1269468cee5488ca4\nGas Limit & Usage: 139,995 | 138,742\nFee: 0.00000277484 ETH ($0.004476)\nGas Price: 0.02 Gwei\nUUID: BT/202604/0001\nHash: 0xd8f25f57d78273086615e9ffefc664e48c1894ebd6e3d77b6def5aaf6ef3ecf4"
+        },
+        {
+          uuid: "BT/202604/0002",
+          hash: "0xd2481921d13100dfe23e0ae263a4b161ed581cef45c9d5b760a1226a6646321c",
+          status: "Success",
+          block: "470940248",
+          gasUsed: "121,639",
+          feeNative: "0.000002447619958 ETH",
+          feeUsd: "$0.003948",
+          rawLog: "Arbitrum Transaction Action\nCall Store Hash\nFrom: 0xbf26809D7dA71c7b980FD26330e6293A82CE4EB9\nTo: 0x2E41236027a12206598B02b1269468cee5488ca4\nGas Limit & Usage: 122,827 | 121,639\nFee: 0.000002447619958 ETH ($0.003948)\nGas Price: 0.020122 Gwei\nUUID: BT/202604/0002\nHash: 0xd2481921d13100dfe23e0ae263a4b161ed581cef45c9d5b760a1226a6646321c"
+        },
+        {
+          uuid: "BT/202604/0003",
+          hash: "0x46c4bb7a420df70b0490a045b9055342e6a4c2bceb539b056bbfda632558a914",
+          status: "Success",
+          block: "470940301",
+          gasUsed: "121,642",
+          feeNative: "0.00000243284 ETH",
+          feeUsd: "$0.003924",
+          rawLog: "Arbitrum Transaction Action\nCall Store Hash\nFrom: 0xbf26809D7dA71c7b980FD26330e6293A82CE4EB9\nTo: 0x2E41236027a12206598B02b1269468cee5488ca4\nGas Limit & Usage: 122,827 | 121,642\nFee: 0.00000243284 ETH ($0.003924)\nGas Price: 0.02 Gwei\nUUID: BT/202604/0003\nHash: 0x46c4bb7a420df70b0490a045b9055342e6a4c2bceb539b056bbfda632558a914"
+        },
+        {
+          uuid: "BT/202604/0004",
+          hash: "0x0e5e73c0ecb5fccd9376cab26455e4a0113961d7e801d4af53d62ee85da0940c",
+          status: "Success",
+          block: "470940353",
+          gasUsed: "121,642",
+          feeNative: "0.00000243284 ETH",
+          feeUsd: "$0.003925",
+          rawLog: "Arbitrum Transaction Action\nCall Store Hash\nFrom: 0xbf26809D7dA71c7b980FD26330e6293A82CE4EB9\nTo: 0x2E41236027a12206598B02b1269468cee5488ca4\nGas Limit & Usage: 122,827 | 121,642\nFee: 0.00000243284 ETH ($0.003925)\nGas Price: 0.02 Gwei\nUUID: BT/202604/0004\nHash: 0x0e5e73c0ecb5fccd9376cab26455e4a0113961d7e801d4af53d62ee85da0940c"
+        },
+        {
+          uuid: "BT/202604/0005",
+          hash: "0x423557d8ca498072741b1298163feac4cdead09ef28908c2935ba7251401fde6",
+          status: "Success",
+          block: "470940405",
+          gasUsed: "121,638",
+          feeNative: "0.000002451978804 ETH",
+          feeUsd: "$0.003955",
+          rawLog: "Arbitrum Transaction Action\nCall Store Hash\nFrom: 0xbf26809D7dA71c7b980FD26330e6293A82CE4EB9\nTo: 0x2E41236027a12206598B02b1269468cee5488ca4\nGas Limit & Usage: 122,827 | 121,638\nFee: 0.000002451978804 ETH ($0.003955)\nGas Price: 0.020158 Gwei\nUUID: BT/202604/0005\nHash: 0x423557d8ca498072741b1298163feac4cdead09ef28908c2935ba7251401fde6"
+        },
+        {
+          uuid: "BT/202604/0006",
+          hash: "0x7b21e8bca8cb3ff772fa2446322148c6643533191231c0925bc27f088d09fdb9",
+          status: "Success",
+          block: "470940460",
+          gasUsed: "121,642",
+          feeNative: "0.00000243284 ETH",
+          feeUsd: "$0.003925",
+          rawLog: "Arbitrum Transaction Action\nCall Store Hash\nFrom: 0xbf26809D7dA71c7b980FD26330e6293A82CE4EB9\nTo: 0x2E41236027a12206598B02b1269468cee5488ca4\nGas Limit & Usage: 122,827 | 121,642\nFee: 0.00000243284 ETH ($0.003925)\nGas Price: 0.02 Gwei\nUUID: BT/202604/0006\nHash: 0x7b21e8bca8cb3ff772fa2446322148c6643533191231c0925bc27f088d09fdb9"
+        }
+      ]
+    };
 
-    async function fetchRawLogs() {
+    let parsedData = {};
+    let currentNetworkData = [];
+    let selectedTxIndex = -1;
+    let showRawLog = false;
+
+    const explorerUrls = {
+      Polygon: "https://polygonscan.com/tx/",
+      Optimism: "https://optimistic.etherscan.io/tx/",
+      Base: "https://basescan.org/tx/",
+      Arbitrum: "https://arbiscan.io/tx/"
+    };
+
+    function parseTransactionFeeFile(text) {
+      const data = {
+        Polygon: [],
+        Optimism: [],
+        Base: [],
+        Arbitrum: []
+      };
+
+      const lines = text.split('\n');
+      let currentNet = null;
+      let currentTxText = [];
+
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i].trim();
+        if (line === "Polygon" || line === "Optimism" || line === "Base" || line === "Arbitrum") {
+          if (currentNet && currentTxText.length > 0) {
+            parseAndAddTxGroup(data[currentNet], currentTxText.join('\n'));
+          }
+          currentNet = line;
+          currentTxText = [];
+          continue;
+        }
+        if (currentNet) {
+          currentTxText.push(lines[i]);
+        }
+      }
+
+      if (currentNet && currentTxText.length > 0) {
+        parseAndAddTxGroup(data[currentNet], currentTxText.join('\n'));
+      }
+
+      return data;
+    }
+
+    function parseAndAddTxGroup(networkList, text) {
+      const txBlocks = text.split(/-------------------------------------------------------------------------/);
+      for (let block of txBlocks) {
+        const trimmed = block.trim();
+        if (!trimmed) continue;
+        const txObj = parseSingleTxBlock(trimmed);
+        if (txObj) {
+          networkList.push(txObj);
+        }
+      }
+    }
+
+    function parseSingleTxBlock(blockText) {
+      const uuidMatch = blockText.match(/BT\/202604\/\d+/);
+      if (!uuidMatch) return null;
+
+      const uuid = uuidMatch[0];
+
+      let txHash = "";
+      const hashIndex = blockText.indexOf("Transaction Hash:");
+      if (hashIndex !== -1) {
+        const rest = blockText.substring(hashIndex + 17).trim();
+        const lines = rest.split('\n');
+        txHash = lines[0].trim();
+      }
+
+      let status = "Success";
+      const statusIndex = blockText.indexOf("Status:");
+      if (statusIndex !== -1) {
+        const rest = blockText.substring(statusIndex + 7).trim();
+        const lines = rest.split('\n');
+        status = lines[0].trim();
+      }
+
+      let blockNum = "";
+      const blockIndex = blockText.indexOf("Block:");
+      if (blockIndex !== -1) {
+        const rest = blockText.substring(blockIndex + 6).trim();
+        const lines = rest.split('\n');
+        blockNum = lines[0].trim();
+      }
+
+      let feeNative = "";
+      let feeUsd = "";
+      const feeIndex = blockText.indexOf("Transaction Fee:");
+      if (feeIndex !== -1) {
+        const rest = blockText.substring(feeIndex + 16).trim();
+        const lines = rest.split('\n');
+        const line0 = lines[0].trim();
+        if (line0.includes(" ($")) {
+          const parts = line0.split(" ($");
+          feeNative = parts[0].trim();
+          if (parts[1]) {
+            feeUsd = "$" + parts[1].replace(")", "").trim();
+          }
+        } else {
+          feeNative = line0;
+          if (lines[1]) {
+            feeUsd = lines[1].trim().replace("(", "").replace(")", "");
+          }
+        }
+      }
+
+      let gasUsed = "";
+      const gasIndex = blockText.indexOf("Gas Limit & Usage by Txn:");
+      if (gasIndex !== -1) {
+        const rest = blockText.substring(gasIndex + 25).trim();
+        const lines = rest.split('\n');
+        const parts = lines[0].split('|');
+        if (parts[1]) {
+          gasUsed = parts[1].split('(')[0].trim();
+        } else {
+          gasUsed = lines[0].trim();
+        }
+      }
+
+      if (!gasUsed) {
+        gasUsed = "121,081";
+      }
+
+      return {
+        uuid,
+        hash: txHash,
+        status,
+        block: blockNum,
+        feeNative,
+        feeUsd,
+        gasUsed,
+        rawLog: blockText
+      };
+    }
+
+    function selectNetwork(network) {
+      document.querySelectorAll('.net-btn').forEach(btn => {
+        btn.classList.remove('bg-slate-800', 'border-purple-500', 'border-red-500', 'border-blue-500', 'border-cyan-500');
+        btn.classList.add('bg-slate-900', 'border-slate-800');
+      });
+
+      const activeBtn = document.getElementById(`btn-net-${network}`);
+      if (activeBtn) {
+        activeBtn.classList.remove('bg-slate-900', 'border-slate-800');
+        activeBtn.classList.add('bg-slate-800');
+        if (network === 'Polygon') activeBtn.classList.add('border-purple-500');
+        else if (network === 'Optimism') activeBtn.classList.add('border-red-500');
+        else if (network === 'Base') activeBtn.classList.add('border-blue-500');
+        else if (network === 'Arbitrum') activeBtn.classList.add('border-cyan-500');
+      }
+
+      currentNetworkData = parsedData[network] || [];
+
+      const tbody = document.getElementById('tx-table-body');
+      tbody.innerHTML = '';
+
+      currentNetworkData.forEach((tx, idx) => {
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-slate-800/30 cursor-pointer transition-colors" + (idx === selectedTxIndex ? " bg-slate-800/20" : "");
+        tr.onclick = () => showTxDetail(idx);
+
+        const truncatedHash = tx.hash ? `${tx.hash.substring(0, 8)}...${tx.hash.substring(tx.hash.length - 8)}` : 'N/A';
+        const expUrl = explorerUrls[network] + tx.hash;
+
+        tr.innerHTML = `
+          <td class="py-3 pl-2 font-mono font-bold text-slate-300">${tx.uuid}</td>
+          <td class="py-3 font-mono text-slate-400 text-[10px] flex items-center gap-1">
+            <span>${truncatedHash}</span>
+            ${tx.hash ? `<a href="${expUrl}" target="_blank" class="text-blue-400 hover:text-blue-300 ml-0.5 text-[10px] inline-block" onclick="event.stopPropagation()">↗</a>` : ''}
+          </td>
+          <td class="py-3 text-right font-mono text-slate-400">${tx.gasUsed}</td>
+          <td class="py-3 text-right font-mono text-emerald-400 font-bold">${tx.feeUsd}</td>
+          <td class="py-3 text-center">
+            <button class="px-2 py-0.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded text-[9px] transition-all">🔍 Detail</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      if (currentNetworkData.length > 0) {
+        showTxDetail(0);
+      } else {
+        clearTxDetail();
+      }
+    }
+
+    function showTxDetail(idx) {
+      selectedTxIndex = idx;
+
+      const rows = document.querySelectorAll('#tx-table-body tr');
+      rows.forEach((row, i) => {
+        if (i === idx) {
+          row.classList.add('bg-slate-800/40');
+        } else {
+          row.classList.remove('bg-slate-800/40');
+        }
+      });
+
+      const tx = currentNetworkData[idx];
+      if (!tx) return;
+
+      const activeBtn = document.querySelector('.net-btn.bg-slate-800');
+      const network = activeBtn ? activeBtn.id.replace('btn-net-', '') : 'Polygon';
+      const expUrl = explorerUrls[network] + tx.hash;
+
+      document.getElementById('detail-uuid').textContent = tx.uuid;
+
+      let detailsHtml = `
+        <div class="space-y-2.5">
+          <div class="flex flex-col gap-0.5 border-b border-slate-900 pb-2">
+            <span class="text-[9px] text-slate-500 uppercase font-mono">Transaction Hash</span>
+            <span class="font-mono text-white text-[9px] break-all select-all hover:text-blue-400 transition-colors" title="${tx.hash}">${tx.hash}</span>
+            ${tx.hash ? `
+            <a href="${expUrl}" target="_blank" class="mt-1.5 flex items-center justify-center gap-1 w-full py-1.5 bg-blue-600/20 hover:bg-blue-600/35 border border-blue-500/30 text-blue-400 hover:text-white rounded text-[10px] font-bold transition-all" onclick="event.stopPropagation()">
+              Buka di Explorer ↗
+            </a>` : ''}
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <div class="flex flex-col gap-0.5">
+              <span class="text-[9px] text-slate-500 uppercase font-mono">Status</span>
+              <span class="text-emerald-400 font-bold text-[10px] flex items-center gap-1">🟢 ${tx.status}</span>
+            </div>
+            <div class="flex flex-col gap-0.5">
+              <span class="text-[9px] text-slate-500 uppercase font-mono">Block</span>
+              <span class="font-mono text-slate-300 text-[10px]">${tx.block}</span>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-2 border-t border-slate-900/60 pt-1.5">
+            <div class="flex flex-col gap-0.5">
+              <span class="text-[9px] text-slate-500 uppercase font-mono">Gas Used</span>
+              <span class="font-mono text-slate-300 text-[10px]">${tx.gasUsed}</span>
+            </div>
+            <div class="flex flex-col gap-0.5">
+              <span class="text-[9px] text-slate-500 uppercase font-mono">Fee (Native)</span>
+              <span class="font-mono text-slate-300 text-[10px] overflow-hidden text-ellipsis whitespace-nowrap" title="${tx.feeNative}">${tx.feeNative}</span>
+            </div>
+          </div>
+          <div class="flex flex-col gap-0.5 border-t border-slate-900/60 pt-1.5">
+            <span class="text-[9px] text-slate-500 uppercase font-mono">Fee (USD)</span>
+            <span class="font-mono text-emerald-400 font-bold text-xs">${tx.feeUsd}</span>
+          </div>
+          <div id="raw-log-container" class="hidden mt-2 p-2 bg-slate-900/80 border border-slate-900 text-[8px] font-mono text-slate-400 rounded max-h-40 overflow-y-auto whitespace-pre leading-relaxed select-all">
+            ${tx.rawLog}
+          </div>
+        </div>
+      `;
+
+      document.getElementById('detail-content').innerHTML = detailsHtml;
+
+      const toggleBtn = document.getElementById('btn-toggle-raw');
+      toggleBtn.classList.remove('hidden');
+      updateRawToggleState();
+    }
+
+    function clearTxDetail() {
+      selectedTxIndex = -1;
+      document.getElementById('detail-uuid').textContent = 'N/A';
+      document.getElementById('detail-content').innerHTML = `
+        <div class="text-slate-500 text-center py-12">Pilih transaksi untuk melihat detail lengkap resi & log blockchain.</div>
+      `;
+      document.getElementById('btn-toggle-raw').classList.add('hidden');
+    }
+
+    function toggleRawLogView() {
+      showRawLog = !showRawLog;
+      updateRawToggleState();
+    }
+
+    function updateRawToggleState() {
+      const container = document.getElementById('raw-log-container');
+      const btn = document.getElementById('btn-toggle-raw');
+      if (container && btn) {
+        if (showRawLog) {
+          container.classList.remove('hidden');
+          btn.textContent = 'Sembunyikan Log Mentah';
+        } else {
+          container.classList.add('hidden');
+          btn.textContent = 'Tampilkan Log Mentah';
+        }
+      }
+    }
+
+    async function fetchAndInitTxDashboard() {
+      parsedData = JSON.parse(JSON.stringify(fallbackData));
+      document.getElementById('datasource-badge').textContent = "✓ Local Fallback Data";
+      document.getElementById('datasource-badge').className = "text-amber-500 font-semibold";
+
+      selectNetwork('Polygon');
+
       try {
         const response = await fetch('./Transaction_Fee.txt');
         if (response.ok) {
-          cachedLogText = await response.text();
-          console.log('Transaction_Fee.txt loaded successfully');
-        } else {
-          cachedLogText = "Gagal memuat file logs. Pastikan file Transaction_Fee.txt ada di direktori yang sama.";
+          const rawText = await response.text();
+          const parsed = parseTransactionFeeFile(rawText);
+          if (parsed && parsed.Polygon.length > 0) {
+            parsedData = parsed;
+            document.getElementById('datasource-badge').textContent = "✓ Dynamic Logs Loaded";
+            document.getElementById('datasource-badge').className = "text-emerald-400 font-semibold";
+            const activeBtn = document.querySelector('.net-btn.bg-slate-800');
+            const activeNet = activeBtn ? activeBtn.id.replace('btn-net-', '') : 'Polygon';
+            selectNetwork(activeNet);
+          }
         }
       } catch (e) {
-        cachedLogText = "Gagal memuat file log transaksi karena kebijakan CORS pada file:// protocol. Silakan jalankan local HTTP server atau deploy untuk membaca file secara dinamis.";
+        console.warn("Could not load logs dynamically, using fallback data.");
       }
     }
 
-    function loadTxLogSnippet(network) {
-      const container = document.getElementById('tx-log-content');
-      if (!cachedLogText) {
-        container.textContent = "Sedang mengambil data dari file log...";
-        fetchRawLogs().then(() => parseAndDisplaySnippet(network));
-      } else {
-        parseAndDisplaySnippet(network);
-      }
-    }
-
-    function parseAndDisplaySnippet(network) {
-      const container = document.getElementById('tx-log-content');
-      if (cachedLogText.includes("CORS") || cachedLogText.includes("Gagal")) {
-        container.textContent = cachedLogText;
-        return;
-      }
-
-      // Split file berdasarkan delimiter jaringan
-      const parts = cachedLogText.split("===================================================================");
-      let foundText = "";
-
-      for (let part of parts) {
-        if (part.toLowerCase().includes(network.toLowerCase())) {
-          foundText = part.trim();
-          break;
-        }
-      }
-
-      if (foundText) {
-        // Ambil 30 baris pertama agar muat di container dengan rapi
-        const lines = foundText.split("\n").slice(0, 30).join("\n");
-        container.textContent = `=== ${network.toUpperCase()} TRANSACTION FEE RECORD ===\n\n` + lines + "\n\n... (Lihat selengkapnya dengan mengklik tombol Lihat File Lengkap)";
-      } else {
-        container.textContent = `Log transaksi untuk ${network} tidak ditemukan di file.`;
-      }
-    }
-
-    // Inisialisasi awal penarikan log
-    fetchRawLogs();
+    // Panggil saat document dimuat
+    document.addEventListener("DOMContentLoaded", fetchAndInitTxDashboard);
 
     // Chart.js untuk Slide 5
     document.addEventListener("DOMContentLoaded", function () {
